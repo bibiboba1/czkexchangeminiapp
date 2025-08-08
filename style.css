@@ -78,7 +78,7 @@ body{
 
 
 .input-wrapper .chip {
-  height: 52px;                   /* компактнее, чтобы точно поместился */
+  height: 46px;                   /* компактнее, чтобы точно поместился */
   width: auto;
   flex-shrink: 0;                 /* не схлопываем чип */
   margin-left: auto;              /* прижимаем чип к правому краю, но внутри wrapper */
