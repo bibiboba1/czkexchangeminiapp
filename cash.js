@@ -1,5 +1,10 @@
 // cash.js
 localStorage.setItem('flow', 'cash');
+localStorage.removeItem('account');
+localStorage.removeItem('name');
+// если хочешь ещё жёстче:
+// localStorage.removeItem('comment');
+
 
 // Элементы
 const dateInput = document.getElementById('dateInput');
