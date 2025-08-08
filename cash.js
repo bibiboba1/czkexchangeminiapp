@@ -42,5 +42,5 @@ btnNext.addEventListener('click', () => {
   localStorage.setItem('time', `${displayDate} ${timeVal}`);
 
   // Следующая страница (подтвеждение)
-  window.location.href = 'confirm.html';
+  window.location.href = 'confirm_cash.html';
 });
