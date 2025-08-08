@@ -1,134 +1,170 @@
-body {
-    margin: 0;
-    font-family: sans-serif;
-    background: white;
-    color: black;
+/* Базовая сетка под Telegram mini app (узкая, с крупными элементами) */
+:root{
+  --radius-lg: 18px;
+  --radius-xl: 22px;
 }
 
-.container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
+*{ box-sizing: border-box; }
+
+body{
+  margin:0;
+  font-family: -apple-system, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+  background:#ffffff;
+  color:#000;
 }
 
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+.container{
+  max-width: 612px;           /* ширина под мини-апп Telegram */
+  margin:0 auto;
+  padding: 0 20px 28px;       /* нижний паддинг, чтобы кнопка «дышала» */
 }
 
-.input-section {
-    background: #f9f9f9;
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 10px;
+/* Заголовки */
+.page-title{
+  font-size: 34px;
+  line-height: 40px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin: 22px 0 18px;
 }
 
-.input-group {
-    margin-bottom: 20px;
+.rates-title{
+  font-size: 26px;
+  font-weight: 800;
+  margin: 18px 0 8px;
 }
 
-.input-group label {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-    display: block;
+/* Карточка ввода */
+.card.input-section{
+  background:#f4f5f6;
+  border-radius: 20px;
+  padding: 16px;
 }
 
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    padding: 5px 10px;
-    background: white;
+/* Подписи над полями */
+.input-group{ margin-bottom: 18px; }
+.input-group label{
+  display:block;
+  font-size:16px;
+  color:#6a6a6a;
+  margin: 2px 0 8px;
 }
 
-.input-wrapper input {
-    flex: 1;
-    border: none;
-    font-size: 20px;
-    padding: 10px;
-    outline: none;
+/* Поле ввода и чип валюты */
+.input-wrapper{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#fff;
+  border:1px solid #e5e5e7;
+  border-radius: var(--radius-xl);
+  padding: 8px 12px 8px 14px;
+  height: 64px;                         /* выше как в рефе */
 }
 
-.input-wrapper img {
-    height: 35px;
-    width: auto;
+.input-wrapper input{
+  flex:1;
+  border:none;
+  outline:none;
+  font-size: 32px;                       /* большой “0” */
+  line-height: 36px;
+  padding:0;
 }
 
-.switch-icon {
-    text-align: center;
-    margin: 10px 0;
+.input-wrapper .chip{
+  width: 118px;                          /* крупнее RUB/CZK-пилюля */
+  height: auto;
 }
 
-.switch-icon img {
-    height: 40px;
-    width: auto;
+.switch-icon{
+  display:flex;
+  justify-content:center;
+  margin: 6px 0 6px;
+}
+.switch-icon img{
+  width: 76px;                           /* как в примере — крупная желтая кнопка */
+  height:auto;
 }
 
-.note {
-    font-size: 12px;
-    color: gray;
-    margin-bottom: 15px;
+/* серая подпись */
+.note{
+  font-size:14px;
+  color:#9aa0a6;
+  margin: 14px 0 10px;
 }
 
-.rates img {
-    width: 100%;
-    border-radius: 12px;
+/* ---- Блоки курсов ---- */
+.rates{ margin-top: 2px; }
+
+.rate-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 8px 0;
 }
 
-.exchange-button {
-    text-align: center;
-    margin-top: 20px;
-    cursor: pointer;
+.left{ display:flex; align-items:center; gap:10px; }
+
+.flag{
+  width: 44px;                            /* больше флаг */
+  height: 44px;
+  border-radius:50%;
 }
 
-.exchange-button img {
-    width: 100%;
-    max-width: 360px;
+.currency-info{
+  display:flex;
+  flex-direction:column;
+}
+.currency-name{
+  font-weight:800;                        /* CZK жирнее */
+  font-size: 20px;                        /* больше "CZK" */
+  line-height: 22px;
+}
+.currency-amount{
+  font-size: 13px;
+  color:#8e8e93;
+  margin-top: 2px;
 }
 
-.rates {
-    margin-top: 20px;
+/* Правая колонка: подписи сверху, значения ниже, два столбца */
+.right{
+  display:grid;
+  grid-template-columns: 1fr 1fr;         /* Покупка | Продажа */
+  grid-template-rows: auto auto;          /* подпись и значение */
+  column-gap: 22px;
+  text-align:right;
+  min-width: 168px;
 }
-
-.rate-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+.labels{
+  grid-column: 1 / span 2;                /* не используется — оставлено для совместимости */
 }
+.right span{ font-size: 13px; color:#8e8e93; }
+.right .labels-left{ grid-column:1; }
+.right .labels-right{ grid-column:2; }
 
-.rate-row .left {
-    display: flex;
-    align-items: center;
+.right .label-buy   { grid-column:1; grid-row:1; }
+.right .label-sell  { grid-column:2; grid-row:1; }
+
+.right .values{ display:contents; }       /* чтобы .val стали ячейками сетки */
+
+.val{
+  font-size: 22px;                        /* крупные числа */
+  font-weight:800;
+  color:#000;
 }
+.val.buy  { grid-column:1; grid-row:2; }
+.val.sell { grid-column:2; grid-row:2; }
 
-.rate-row img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
+/* Кнопка внизу — ниже и больше */
+.exchange-button{
+  margin: 26px 0 8px;
+  text-align:center;
 }
-
-.currency-info .currency-name {
-    font-weight: bold;
-    font-size: 16px;
+.exchange-button img{
+  width: 100%;
+  max-width: 560px;                       /* почти на всю ширину карточки */
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border-radius: 20px;
 }
-
-.currency-info .currency-amount {
-    font-size: 12px;
-    color: #888;
-}
-
-.rate-row .right {
-    text-align: right;
-    font-size: 14px;
-}
-
-.rate-row .right b {
-    font-size: 16px;
-    margin-left: 5px;
-}
-
-
