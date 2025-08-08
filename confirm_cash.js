@@ -1,3 +1,4 @@
+console.log('confirm_cash.js LOADED, flow=', localStorage.getItem('flow'));
 console.log('confirm_cash.js LOADED');
 
 // формат 20 000
