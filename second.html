@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Выбор способа</title>
+  <title>Выбор способа получения</title>
   <link rel="stylesheet" href="style.css" />
   <script defer src="second.js"></script>
 </head>
 <body>
-  <!-- Кнопка Назад внизу -->
-<div class="bottom-button">
-  <a href="index.html">
-    <img src="images/back.png" alt="Назад" />
-  </a>
-</div>
+  <div class="container">
 
+    <!-- Прогресс -->
+    <div class="progress-bar">
+      <div class="progress-step completed"></div>
+      <div class="progress-step current"></div>
+      <div class="progress-step"></div>
+    </div>
 
     <!-- Заголовок -->
-    <h1 class="page-title">Выберите способ<br>получения</h1>
+    <h1 class="page-title center">Выберите способ<br>получения</h1>
 
     <!-- Выбор -->
     <div class="card option" id="toAccount">
@@ -28,6 +29,11 @@
     <div class="card option" id="toCash">
       <div class="option-title">Наличные</div>
       <div class="option-subtitle">Получите наличные в Праге</div>
+    </div>
+
+    <!-- Кнопка Назад -->
+    <div class="exchange-button" id="goBack">
+      <img src="images/back.png" alt="Назад" />
     </div>
 
   </div>
