@@ -1,3 +1,5 @@
+console.log('confirm.js LOADED, flow=', localStorage.getItem('flow'));
+
 // Форматирование чисел с пробелами (например: 20 000)
 function formatNumber(n) {
   return Number(n).toLocaleString('ru-RU');
