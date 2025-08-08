@@ -1,7 +1,12 @@
+// Форматирование чисел с пробелами (например: 20 000)
+function formatNumber(n) {
+  return Number(n).toLocaleString('ru-RU');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Заполнение полей
-  document.getElementById('rubAmount').textContent = localStorage.getItem('rub') || '';
-  document.getElementById('czkAmount').textContent = localStorage.getItem('czk') || '';
+  // Подставляем значения в элементы, форматируем числа
+  document.getElementById('rubAmount').textContent = formatNumber(localStorage.getItem('rub') || 0);
+  document.getElementById('czkAmount').textContent = formatNumber(localStorage.getItem('czk') || 0);
   document.getElementById('rate').textContent = localStorage.getItem('rate') || '';
   document.getElementById('method').textContent = localStorage.getItem('method') || '';
   document.getElementById('acc').textContent = localStorage.getItem('account') || '';
@@ -9,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('commentText').textContent = localStorage.getItem('comment') || '';
   document.getElementById('time').textContent = localStorage.getItem('time') || '';
 
-  // Кнопка "Создать заявку"
-  document.querySelector('.btn-yellow').addEventListener('click', () => {
+  // Обработка нажатия на кнопку "Создать заявку"
+  document.querySelector('.btn-yellow')?.addEventListener('click', () => {
     const data = {
       rub: localStorage.getItem('rub'),
       czk: localStorage.getItem('czk'),
@@ -23,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const message = `💳 Новая заявка:
-Отдаёт: ${data.rub} RUB
-Получает: ${data.czk} CZK
+Отдаёт: ${formatNumber(data.rub)} RUB
+Получает: ${formatNumber(data.czk)} CZK
 Курс: ${data.rate}
 Способ: ${data.method}
 Счёт: ${data.account}
