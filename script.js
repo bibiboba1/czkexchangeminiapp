@@ -8,6 +8,9 @@ const RATE_BUY  = 3.70;   // «покупка» CZK за RUB
 
 // При вводе считаем по продаже (как на скрине — ввёл RUB, получил CZK)
 input.addEventListener('input', () => {
+  // Удаляем все нецифры и ограничиваем до 7 символов
+  input.value = input.value.replace(/\D/g, '').slice(0, 7);
+
   const rub = parseFloat(input.value);
   if (!isNaN(rub)) {
     const czk = rub / RATE_SELL;
@@ -16,6 +19,7 @@ input.addEventListener('input', () => {
     output.value = '';
   }
 });
+
 
 // Закрыть клавиатуру по тапу вне полей
 document.addEventListener('click', (e) => {
