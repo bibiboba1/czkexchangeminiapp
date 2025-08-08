@@ -18,3 +18,10 @@ input.addEventListener('input', () => {
 exchangeBtn.addEventListener('click', () => {
     window.location.href = 'next_page.html'; // или другая логика
 });
+
+// Закрытие клавиатуры по клику вне инпутов
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('input')) {
+        document.activeElement.blur();
+    }
+});
