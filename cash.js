@@ -1,4 +1,5 @@
 // cash.js
+localStorage.setItem('flow', 'cash');
 
 // Элементы
 const dateInput = document.getElementById('dateInput');
