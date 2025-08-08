@@ -4,7 +4,7 @@ function formatNumber(n) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Подставляем значения в элементы, форматируем числа
+  // Подставляем значения в элементы
   document.getElementById('rubAmount').textContent = formatNumber(localStorage.getItem('rub') || 0);
   document.getElementById('czkAmount').textContent = formatNumber(localStorage.getItem('czk') || 0);
   document.getElementById('rate').textContent = localStorage.getItem('rate') || '';
@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('commentText').textContent = localStorage.getItem('comment') || '';
   document.getElementById('time').textContent = localStorage.getItem('time') || '';
 
-  // Обработка нажатия на кнопку "Создать заявку"
-  document.querySelector('.btn-yellow')?.addEventListener('click', () => {
+  // Обработка клика по кнопке "Создать заявку"
+  document.querySelector('.btn-yellow')?.addEventListener('click', async () => {
     const data = {
       rub: localStorage.getItem('rub'),
       czk: localStorage.getItem('czk'),
@@ -27,20 +27,22 @@ document.addEventListener('DOMContentLoaded', () => {
       time: localStorage.getItem('time')
     };
 
-    const message = `💳 Новая заявка:
-Отдаёт: ${formatNumber(data.rub)} RUB
-Получает: ${formatNumber(data.czk)} CZK
-Курс: ${data.rate}
-Способ: ${data.method}
-Счёт: ${data.account}
-Имя: ${data.name}
-Комментарий: ${data.comment || '—'}
-⏱ Время перевода: ${data.time}`;
+    try {
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
 
-    if (window.Telegram && Telegram.WebApp) {
-      Telegram.WebApp.sendData(message);
-    } else {
-      alert('Telegram WebApp не доступен');
+      const result = await res.json();
+
+      if (result.success) {
+        alert('Заявка отправлена!');
+      } else {
+        alert('Ошибка при отправке: ' + (result?.data?.description || 'Неизвестная ошибка'));
+      }
+    } catch (err) {
+      alert('Сервер не отвечает: ' + err.message);
     }
   });
 });
