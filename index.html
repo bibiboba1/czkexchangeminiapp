@@ -84,3 +84,23 @@
 </body>
 </html>
 
+input.addEventListener('input', () => {
+  input.value = input.value.replace(/\D/g, '').slice(0, 7);
+  const rub = parseFloat(input.value);
+  if (!isNaN(rub)) {
+    const czk = rub / RATE_SELL;
+    output.value = czk.toFixed(2);
+
+    // Сохраняем в localStorage
+    localStorage.setItem('rub', rub.toFixed(0));
+    localStorage.setItem('czk', czk.toFixed(2));
+    localStorage.setItem('rate', RATE_SELL); // сохраняем текущий курс
+  } else {
+    output.value = '';
+    localStorage.removeItem('rub');
+    localStorage.removeItem('czk');
+    localStorage.removeItem('rate');
+  }
+});
+
+
