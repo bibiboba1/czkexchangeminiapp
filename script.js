@@ -27,7 +27,9 @@ document.addEventListener('click', (e) => {
 });
 
 // Переход на следующую страницу
+// Переход на следующую страницу
 document.getElementById('exchangeBtn')?.addEventListener('click', () => {
-  window.location.href = 'next_page.html';
+  window.location.href = 'second.html'; // ← правильное имя файла
 });
+
 
