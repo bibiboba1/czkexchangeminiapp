@@ -1,19 +1,19 @@
-console.log('cash.js LOADED, flow=', localStorage.getItem('flow'));
+// cash.js — выбор даты и времени для "Наличные"
 
-// cash.js
+// Помечаем, что пользователь пошёл по ветке "Наличные"
 localStorage.setItem('flow', 'cash');
+
+// Чистим все поля от ветки "На счёт"
 localStorage.removeItem('account');
 localStorage.removeItem('name');
-// если хочешь ещё жёстче:
-// localStorage.removeItem('comment');
-
+localStorage.removeItem('comment');
 
 // Элементы
 const dateInput = document.getElementById('dateInput');
 const timeSelect = document.getElementById('timeSelect');
 const btnNext = document.getElementById('cashNext');
 
-// === Дата: минимум — сегодня, по умолчанию — сегодня ===
+// === Минимальная дата — сегодня ===
 const today = new Date();
 const yyyy = today.getFullYear();
 const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -22,7 +22,7 @@ const dd = String(today.getDate()).padStart(2, '0');
 dateInput.min = `${yyyy}-${mm}-${dd}`;
 dateInput.value = `${yyyy}-${mm}-${dd}`;
 
-// === Временные слоты 10:00–20:00 ===
+// === Временные слоты с 10:00 до 20:00 ===
 const slots = [];
 for (let h = 10; h < 20; h++) {
   const from = String(h).padStart(2, '0') + ':00';
@@ -33,8 +33,8 @@ timeSelect.innerHTML =
   `<option value="">Выберите время</option>` +
   slots.map(s => `<option value="${s}">${s}</option>`).join('');
 
-// === Восстанавливаем выбор, если пользователь возвращался назад ===
-const savedTime = localStorage.getItem('time'); // формат "ДД.ММ.ГГГГ HH:MM - HH:MM"
+// === Восстановление выбора при возврате ===
+const savedTime = localStorage.getItem('time');
 if (savedTime) {
   const m = savedTime.match(/^(\d{2})\.(\d{2})\.(\d{4}) (.+)$/);
   if (m) {
@@ -44,35 +44,29 @@ if (savedTime) {
   }
 }
 
-// === Скрыть клавиатуру по тапу вне полей (на мобилках) ===
+// === Закрытие клавиатуры при клике вне полей ===
 document.addEventListener('click', (e) => {
   if (!e.target.closest('input,select,button')) document.activeElement.blur();
 });
 
-// === Переход на подтверждение ===
+// === Переход на страницу подтверждения ===
 btnNext.addEventListener('click', () => {
-  const dateVal = dateInput.value; // YYYY-MM-DD
-  const timeVal = timeSelect.value; // "HH:MM - HH:MM"
+  const dateVal = dateInput.value;
+  const timeVal = timeSelect.value;
 
   if (!dateVal || !timeVal) {
     alert('Пожалуйста, выберите дату и время.');
     return;
   }
 
-  // Сохраняем способ и «Дата и время»
+  // Сохраняем метод и дату/время
   localStorage.setItem('method', 'Наличные');
-  localStorage.removeItem('account'); // чтобы не мешались данные ветки "На счёт"
-
-  // Преобразуем дату к "ДД.ММ.ГГГГ"
   const [y, mth, d] = dateVal.split('-');
   const displayDate = `${d}.${mth}.${y}`;
   localStorage.setItem('time', `${displayDate} ${timeVal}`);
-  
-console.log('Переходим на confirm_cash.html, flow=', localStorage.getItem('flow'));
 
-  // Переход на страницу подтверждения для наличных + анти-кэш
+  // Переходим на confirm_cash.html, добавляем метку времени чтобы обойти кэш
   const v = Date.now();
-  console.log('GO → confirm_cash.html');
   window.location.href = `confirm_cash.html?v=${v}`;
 });
 
