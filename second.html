@@ -1,39 +1,37 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Выбор способа получения</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="second.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
 
-    <!-- Прогресс -->
-    <div class="progress-bar">
-      <div class="progress-step completed"></div>
-      <div class="progress-step current"></div>
-      <div class="progress-step"></div>
+    <!-- Прогресс шагов -->
+    <div class="steps">
+      <div class="circle done"></div>
+      <div class="line"></div>
+      <div class="circle active"></div>
+      <div class="line"></div>
+      <div class="circle"></div>
     </div>
 
-    <!-- Заголовок -->
-    <h1 class="page-title center">Выберите способ<br>получения</h1>
+    <h1 class="page-title">Выберите способ получения</h1>
 
-    <!-- Выбор -->
-    <div class="card option" id="toAccount">
-      <div class="option-title">На счёт</div>
-      <div class="option-subtitle">Перевод CZK на ваш счёт</div>
+    <div class="option-card">
+      <h2>На счёт</h2>
+      <p>Перевод CZK на ваш счёт</p>
     </div>
 
-    <div class="card option" id="toCash">
-      <div class="option-title">Наличные</div>
-      <div class="option-subtitle">Получите наличные в Праге</div>
+    <div class="option-card">
+      <h2>Наличные</h2>
+      <p>Получите наличные в Праге</p>
     </div>
 
-    <!-- Кнопка Назад -->
-    <div class="exchange-button" id="goBack">
-      <img src="images/back.png" alt="Назад" />
+    <div class="exchange-button">
+      <button class="btn-yellow">Назад</button>
     </div>
 
   </div>
