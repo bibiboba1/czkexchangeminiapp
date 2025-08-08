@@ -1,3 +1,5 @@
+console.log('cash.js LOADED, flow=', localStorage.getItem('flow'));
+
 // cash.js
 localStorage.setItem('flow', 'cash');
 localStorage.removeItem('account');
@@ -65,6 +67,8 @@ btnNext.addEventListener('click', () => {
   const [y, mth, d] = dateVal.split('-');
   const displayDate = `${d}.${mth}.${y}`;
   localStorage.setItem('time', `${displayDate} ${timeVal}`);
+  
+console.log('Переходим на confirm_cash.html, flow=', localStorage.getItem('flow'));
 
   // Переход на страницу подтверждения для наличных + анти-кэш
   const v = Date.now();
