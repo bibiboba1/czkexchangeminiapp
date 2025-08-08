@@ -106,10 +106,10 @@ body{
 /* ---- Блоки курсов ---- */
 .rates{ margin-top: 2px; }
 
-.rate-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.rate-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 8px 0;
 }
 
@@ -139,27 +139,26 @@ body{
 /* Правая колонка: подписи сверху, значения ниже, два столбца */
 .right {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* две равные колонки */
-  column-gap: 24px;               /* ← вот это добавили */
+  grid-template-columns: 1fr 1fr;
+  column-gap: 32px;        /* чуть больше расстояние между колонками */
   text-align: center;
-  min-width: 150px;
-}
-          
-
-.labels {
-  grid-column: 1 / span 2; /* убираем это! — раньше мешало */
-  font-size: 16px;
-  color: #000;
-  display: contents; /* Позволяет использовать общий grid без лишних обёрток */
+  width: 180px;
+  flex-shrink: 0;
 }
 
+.labels,
+.values {
+  display: contents; /* содержимое будет распределяться как в .right */
+}
+
+.labels div,
+.values span {
+  text-align: center;
+}
 .labels div {
   font-size: 16px;
   color: #000;
-}
-
-.values {
-  display: contents; /* Каждое значение в своей колонке */
+  margin-bottom: 4px;
 }
 
 .values span {
@@ -167,6 +166,7 @@ body{
   font-weight: 600;
   color: #000;
 }
+
 
 
 
