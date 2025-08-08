@@ -242,3 +242,63 @@ body{
   margin: 0 auto;
 }
 
+.steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 26px 0;
+  gap: 52px;
+  position: relative;
+}
+
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: #FFD600;
+  z-index: 0;
+}
+
+.step {
+  width: 32px;
+  height: 32px;
+  background: #FFD600;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.step.current {
+  border: 6px solid black;
+}
+
+.card.option {
+  background: #f4f5f6;
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.option-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.option-subtitle {
+  font-size: 16px;
+  color: #444;
+}
+
+/* Назад */
+.exchange-button img {
+  width: 100%;
+  max-width: 480px;
+  margin: 28px auto 0;
+  display: block;
+  border-radius: 20px;
+}
+
