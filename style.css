@@ -245,73 +245,57 @@ body{
 /* Прогресс шагов */
 .steps {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin: 26px 0;
-  gap: 52px;
-  position: relative;
+  justify-content: center;
+  margin: 30px 0 20px;
 }
-
-.steps::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 28px;
-  right: 28px;
-  height: 2px;
-  background: #FFD600;
-  z-index: 0;
-}
-
-.step {
-  width: 32px;
-  height: 32px;
-  background: #FFD600;
+.circle {
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  z-index: 1;
+  background: #fdd400;
 }
-
-.step.current {
+.circle.done {
   border: 6px solid black;
+  background: #fdd400;
 }
-
-/* Центрирование заголовков */
-.page-title {
-  text-align: center;
+.circle.active {
+  background: #fdd400;
+}
+.line {
+  width: 40px;
+  height: 2px;
+  background: #fdd400;
 }
 
 /* Карточки выбора */
-.card.option {
+.option-card {
   background: #f4f5f6;
   border-radius: 20px;
-  padding: 24px;
+  padding: 20px;
   margin-bottom: 16px;
-  text-align: center;
   cursor: pointer;
 }
-
-.option-title {
+.option-card h2 {
   font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 6px;
+  margin: 0 0 6px;
 }
-
-.option-subtitle {
+.option-card p {
+  margin: 0;
   font-size: 16px;
-  color: #444;
+  color: #666;
 }
 
-/* Кнопка Назад — нижняя, желтая */
-.exchange-button {
-  margin-top: 40px;
-  text-align: center;
-}
-
-.exchange-button img {
+/* Кнопка */
+.btn-yellow {
+  background: #fdd400;
+  border: none;
+  padding: 18px 28px;
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 20px;
   width: 100%;
-  max-width: 560px;
-  height: auto;
+  max-width: 500px;
   display: block;
   margin: 0 auto;
-  border-radius: 20px;
 }
