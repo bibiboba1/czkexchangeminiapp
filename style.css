@@ -311,3 +311,18 @@ body{
   height: auto;
 }
 
+/* Кнопка "Назад" — большая, снизу */
+.bottom-button {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-button img {
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  border-radius: 20px;
+}
+
+
