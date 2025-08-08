@@ -42,5 +42,7 @@ btnNext.addEventListener('click', () => {
   localStorage.setItem('time', `${displayDate} ${timeVal}`);
 
   // Следующая страница (подтвеждение)
+console.log('GO → confirm_cash.html');   // лог для проверки
+
   window.location.href = 'confirm_cash.html';
 });
