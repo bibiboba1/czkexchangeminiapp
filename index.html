@@ -4,50 +4,44 @@
     <meta charset="UTF-8">
     <title>Обмен RUB → CZK</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="container">
         <h1>Рассчитать</h1>
 
-        <div class="exchange-box">
-            <label>Вы отдаете</label>
-            <div class="input-row">
-                <input id="inputAmount" type="number" placeholder="0" />
-                <div class="currency-tag">RUB 🇷🇺</div>
+        <div class="input-section">
+            <div class="input-group">
+                <label>Вы отдаете</label>
+                <div class="input-wrapper">
+                    <input id="inputAmount" type="number" placeholder="0" />
+                    <img src="images/rub_label.png" alt="RUB">
+                </div>
             </div>
 
-            <div class="swap-icon">🔃</div>
+            <div class="switch-icon">
+                <img src="images/switch.png" alt="Switch">
+            </div>
 
-            <label>Вы получаете</label>
-            <div class="input-row">
-                <input id="outputAmount" type="number" placeholder="0" readonly />
-                <div class="currency-tag">CZK 🇨🇿</div>
+            <div class="input-group">
+                <label>Вы получаете</label>
+                <div class="input-wrapper">
+                    <input id="outputAmount" type="text" placeholder="0" readonly />
+                    <img src="images/czk_label.png" alt="CZK">
+                </div>
             </div>
         </div>
 
         <p class="note">Курс фиксируется максимум на один час</p>
 
         <div class="rates">
-            <h2>Курс</h2>
-            <div class="rate-row">
-                <div>CZK &lt; 20 000</div>
-                <div>Покупка 3.6 | Продажа 3.79</div>
-            </div>
-            <div class="rate-row">
-                <div>CZK &gt; 20 000</div>
-                <div>Покупка 3.65 | Продажа 3.75</div>
-            </div>
-            <div class="rate-row">
-                <div>USDT/CZK &gt; 1000</div>
-                <div>Покупка 21.45 | Продажа 21.95</div>
-            </div>
+            <img src="images/currency-row.png" alt="Курсы">
         </div>
 
-        <button id="exchangeBtn">Поменять</button>
+        <div class="exchange-button" id="exchangeBtn">
+            <img src="images/button.png" alt="Поменять">
+        </div>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
