@@ -183,3 +183,62 @@ body{
   margin:0 auto;
   border-radius: 20px;
 }
+
+/* Прогресс шагов */
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0 20px;
+}
+.circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fdd400;
+}
+.circle.done {
+  border: 6px solid black;
+  background: #fdd400;
+}
+.circle.active {
+  background: #fdd400;
+}
+.line {
+  width: 40px;
+  height: 2px;
+  background: #fdd400;
+}
+
+/* Карточки выбора */
+.option-card {
+  background: #f4f5f6;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+.option-card h2 {
+  font-size: 24px;
+  margin: 0 0 6px;
+}
+.option-card p {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Кнопка */
+.btn-yellow {
+  background: #fdd400;
+  border: none;
+  padding: 18px 28px;
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  display: block;
+  margin: 0 auto;
+}
+
