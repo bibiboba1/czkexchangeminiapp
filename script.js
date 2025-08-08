@@ -26,7 +26,26 @@ input.addEventListener('input', () => {
     localStorage.setItem('czk', Math.round(czk));
     localStorage.setItem('rate', rate);
 
-    output.value = formatNumber(
+    output.value = formatNumber(czk); // показываем CZK без копеек и с пробелами
+  } else {
+    output.value = '';
+    localStorage.removeItem('rub');
+    localStorage.removeItem('czk');
+    localStorage.removeItem('rate');
+  }
+});
+
+// Убираем клавиатуру при клике вне input
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('input')) {
+    document.activeElement.blur();
+  }
+});
+
+// Переход на следующую страницу
+exchangeBtn?.addEventListener('click', () => {
+  window.location.href = 'second.html';
+});
 
 
 
