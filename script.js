@@ -1,5 +1,4 @@
 const input = document.getElementById('inputAmount');
-const input = document.getElementById('inputAmount');
 const output = document.getElementById('outputAmount');
 const exchangeBtn = document.getElementById('exchangeBtn');
 
@@ -56,6 +55,7 @@ document.addEventListener('click', (e) => {
 exchangeBtn?.addEventListener('click', () => {
   window.location.href = 'second.html';
 });
+
 
 
 
