@@ -1,3 +1,5 @@
+console.log('confirm_cash.js LOADED');
+
 // формат 20 000
 function formatNumber(n){ return Number(n).toLocaleString('ru-RU'); }
 
