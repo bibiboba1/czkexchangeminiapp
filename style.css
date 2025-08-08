@@ -71,10 +71,12 @@ body{
   padding:0;
 }
 
-.input-wrapper .chip{
-  width: 118px;                          /* крупнее RUB/CZK-пилюля */
+.input-wrapper .chip {
+  width: 96px;         /* было 118px */
   height: auto;
+  max-width: 100%;     /* чтобы не выходило за край */
 }
+
 
 .switch-icon{
   display:flex;
@@ -138,7 +140,7 @@ body{
 .labels{
   grid-column: 1 / span 2;                /* не используется — оставлено для совместимости */
 }
-.right span{ font-size: 13px; color:#8e8e93; }
+.right span{ font-size: 14px; color:#000 ; }
 .right .labels-left{ grid-column:1; }
 .right .labels-right{ grid-column:2; }
 
@@ -148,7 +150,7 @@ body{
 .right .values{ display:contents; }       /* чтобы .val стали ячейками сетки */
 
 .val{
-  font-size: 22px;                        /* крупные числа */
+  font-size: 24px;                        /* крупные числа */
   font-weight:800;
   color:#000;
 }
