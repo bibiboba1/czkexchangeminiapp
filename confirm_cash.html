@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Подтверждение</title>
+
+  <!-- те же стили, что у обычного confirm -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="confirm.css" />
+  <script defer src="confirm_cash.js"></script>
+</head>
+<body>
+  <div class="container" id="confirmPage">
+
+    <!-- прогресс: 1 и 2 шаг пройдены, 3-й активен -->
+    <div class="steps">
+      <div class="circle done"></div>
+      <div class="line"></div>
+      <div class="circle done"></div>
+      <div class="line"></div>
+      <div class="circle current"></div>
+    </div>
+
+    <h1 class="page-title">Подтверждение</h1>
+
+    <!-- блок RUB -> CZK -->
+    <div class="cf-exchange">
+      <div class="cf-side">
+        <div class="cf-label">Отдаете RUB</div>
+        <div class="cf-value" id="rubAmount">—</div>
+      </div>
+
+      <div class="cf-arrow">
+        <img src="images/arrow.png" alt="→">
+      </div>
+
+      <div class="cf-side">
+        <div class="cf-label">Получаете CZK</div>
+        <div class="cf-value" id="czkAmount">—</div>
+      </div>
+    </div>
+
+    <!-- список полей -->
+    <div class="cf-list">
+      <!-- одно объединённое поле вместо "счёт" + "ожидаемое время" -->
+      <div class="cf-item">
+        <div class="cf-item-label">Дата и время</div>
+        <div class="cf-item-value" id="datetime">—</div>
+      </div>
+
+      <div class="cf-row">
+        <div class="cf-item">
+          <div class="cf-item-label">Курс</div>
+          <div class="cf-item-value" id="rate">—</div>
+        </div>
+        <div class="cf-item">
+          <div class="cf-item-label">Способ</div>
+          <div class="cf-item-value" id="method">—</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="note center">Если всё верно — перейдите к оплате</p>
+
+    <div class="exchange-button">
+      <button class="btn-yellow">Создать заявку</button>
+    </div>
+  </div>
+</body>
+</html>
