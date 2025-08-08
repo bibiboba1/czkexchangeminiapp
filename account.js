@@ -1,3 +1,5 @@
+localStorage.setItem('flow', 'account');
+
 document.addEventListener('DOMContentLoaded', () => {
   // Кнопка Далее
   document.getElementById('goNext')?.addEventListener('click', () => {
