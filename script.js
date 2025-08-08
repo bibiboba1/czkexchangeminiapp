@@ -3,29 +3,36 @@ const output = document.getElementById('outputAmount');
 const exchangeBtn = document.getElementById('exchangeBtn');
 
 // КУРСЫ
-const RATE_SELL_NORMAL = 3.95; // < 20 000 CZK
-const RATE_SELL_DISCOUNT = 3.9; // >= 20 000 CZK
+const RATE_SELL_NORMAL = 3.95;    // < 20 000 CZK
+const RATE_SELL_DISCOUNT = 3.9;   // >= 20 000 CZK
 
+// Выбор курса в зависимости от суммы
+function getRate(rub) {
+  const czk = rub / RATE_SELL_NORMAL;
+  return czk >= 20000 ? RATE_SELL_DISCOUNT : RATE_SELL_NORMAL;
+}
+
+// Формат чисел: 20000 → 20 000
+function formatNumber(n) {
+  return Number(n).toLocaleString('ru-RU');
+}
+
+// При вводе:
 input.addEventListener('input', () => {
   input.value = input.value.replace(/\D/g, '').slice(0, 7);
   const rub = parseFloat(input.value);
 
   if (!isNaN(rub)) {
-    // Пробный пересчёт, чтобы понять, какой курс использовать
-    let czk_temp = rub / RATE_SELL_NORMAL;
-    let rateToUse = RATE_SELL_NORMAL;
+    const rate = getRate(rub);
+    const czk = rub / rate;
 
-    if (czk_temp >= 20000) {
-      rateToUse = RATE_SELL_DISCOUNT;
-    }
+    // Сохраняем в localStorage (без копеек)
+    localStorage.setItem('rub', Math.round(rub));
+    localStorage.setItem('czk', Math.round(czk));
+    localStorage.setItem('rate', rate);
 
-    const czk = rub / rateToUse;
-    output.value = czk.toFixed(2);
-
-    // Сохраняем в localStorage
-    localStorage.setItem('rub', rub.toFixed(0));
-    localStorage.setItem('czk', czk.toFixed(2));
-    localStorage.setItem('rate', rateToUse);
+    // Отображаем красиво
+    output.value = formatNumber(czk);
   } else {
     output.value = '';
     localStorage.removeItem('rub');
@@ -34,15 +41,18 @@ input.addEventListener('input', () => {
   }
 });
 
-// Закрыть клавиатуру по тапу вне полей
+// Закрыть клавиатуру по нажатию вне поля
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('input')) document.activeElement.blur();
+  if (!e.target.closest('input')) {
+    document.activeElement.blur();
+  }
 });
 
 // Переход на следующую страницу
-document.getElementById('exchangeBtn')?.addEventListener('click', () => {
+exchangeBtn?.addEventListener('click', () => {
   window.location.href = 'second.html';
 });
+
 
 
 
