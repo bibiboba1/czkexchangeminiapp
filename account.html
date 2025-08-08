@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Данные для перевода</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="account.js"></script>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Прогресс шагов -->
+    <div class="steps">
+      <div class="circle done"></div>
+      <div class="line"></div>
+      <div class="circle done"></div>
+      <div class="line"></div>
+      <div class="circle active"></div>
+    </div>
+
+    <h1 class="page-title">Укажите данные<br>для перевода</h1>
+
+    <!-- Поля ввода -->
+    <div class="input-group">
+      <label for="accountNumber">Ваш счёт</label>
+      <input type="text" id="accountNumber" placeholder="1234567890" />
+    </div>
+
+    <div class="input-group">
+      <label for="fullName">Имя</label>
+      <input type="text" id="fullName" placeholder="Иван Иванов" />
+    </div>
+
+    <div class="input-group">
+      <label for="comment">Комментарий к платежу (по желанию)</label>
+      <input type="text" id="comment" placeholder="Комментарий" />
+    </div>
+
+    <!-- Кнопка Назад -->
+    <div class="exchange-button">
+      <button class="btn-yellow" id="goBack">Назад</button>
+    </div>
+
+  </div>
+</body>
+</html>
 
