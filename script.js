@@ -36,7 +36,7 @@ input.addEventListener('input', () => {
   const czk = Math.floor(rub / rateToUse);
 
   // Сохраняем
-  l
+  
 
 
 
