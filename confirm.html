@@ -4,65 +4,70 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Подтверждение</title>
+
+  <!-- Базовые стили проекта -->
   <link rel="stylesheet" href="style.css" />
+  <!-- Стили только для этой страницы -->
+  <link rel="stylesheet" href="confirm.css" />
+
   <script defer src="confirm.js"></script>
 </head>
 <body>
-  <div class="container">
-    <!-- Прогресс -->
+  <div class="container" id="confirmPage">
+
+    <!-- Шкала прогресса -->
     <div class="steps">
       <div class="circle done"></div>
       <div class="line"></div>
       <div class="circle done"></div>
       <div class="line"></div>
-      <div class="circle current"></div>
+      <div class="circle active"></div>
     </div>
 
-    <!-- Заголовок -->
     <h1 class="page-title">Подтверждение</h1>
 
-    <!-- Обмен -->
-    <div class="exchange-box">
-      <div class="exchange-side">
-        <span class="exchange-label">Отдаете RUB</span>
-        <div class="exchange-value" id="rubAmount"></div>
+    <!-- Блок обмена -->
+    <div class="cf-exchange">
+      <div class="cf-side">
+        <div class="cf-label">Отдаете RUB</div>
+        <div class="cf-value" id="rubAmount">—</div>
       </div>
 
-      <div class="exchange-arrow">
-        <img src="images/arrow.png" alt="→" />
+      <div class="cf-arrow">
+        <img src="images/arrow.png" alt="→">
       </div>
 
-      <div class="exchange-side">
-        <span class="exchange-label">Получаете CZK</span>
-        <div class="exchange-value" id="czkAmount"></div>
-      </div>
-    </div>
-
-    <!-- Поля -->
-    <div class="info-box">
-      <div class="info-line">
-        <div class="info-label">Ваш номер счета</div>
-        <div class="info-value" id="acc"></div>
-      </div>
-
-      <div class="info-line">
-        <div class="info-label">Ожидаемое время перевода</div>
-        <div class="info-value" id="time"></div>
-      </div>
-
-      <div class="info-row">
-        <div class="info-cell">
-          <div class="info-label">Курс</div>
-          <div class="info-value" id="rate"></div>
-        </div>
-        <div class="info-cell">
-          <div class="info-label">Способ</div>
-          <div class="info-value" id="method"></div>
-        </div>
+      <div class="cf-side">
+        <div class="cf-label">Получаете CZK</div>
+        <div class="cf-value" id="czkAmount">—</div>
       </div>
     </div>
 
-    <p class="note">Если всё верно — перейдите к оплате</p>
+    <!-- Информация -->
+    <div class="cf-list">
+      <div class="cf-item">
+        <div class="cf-item-label">Ваш номер счета</div>
+        <div class="cf-item-value" id="acc">—</div>
+      </div>
+
+      <div class="cf-item">
+        <div class="cf-item-label">Ожидаемое время перевода</div>
+        <div class="cf-item-value" id="time">—</div>
+      </div>
+
+      <div class="cf-row">
+        <div class="cf-item">
+          <div class="cf-item-label">Курс</div>
+          <div class="cf-item-value" id="rate">—</div>
+        </div>
+        <div class="cf-item">
+          <div class="cf-item-label">Способ</div>
+          <div class="cf-item-value" id="method">—</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="note center">Если всё верно — перейдите к оплате</p>
 
     <div class="exchange-button">
       <button class="btn-yellow">Создать заявку</button>
@@ -70,4 +75,5 @@
   </div>
 </body>
 </html>
+
 
