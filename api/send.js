@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const { rub, czk, rate, method, account, name, comment, time } = req.body;
 
   const token = '8086537306:AAGBWegYWFI0OxESqPHICyTrlrpnanoRPdg';
-  const chat_id = '2736797226';
+  const chat_id = '6071090987';
 
   const message = `💳 *Новая заявка*\n` +
     `*Отдаёт:* ${rub} RUB\n` +
