@@ -1,25 +1,20 @@
-const inputAmount = document.getElementById('inputAmount');
-const outputAmount = document.getElementById('outputAmount');
+const input = document.getElementById('inputAmount');
+const output = document.getElementById('outputAmount');
 const exchangeBtn = document.getElementById('exchangeBtn');
 
-// Примерная логика расчета (курс может быть динамическим)
-const getRate = (rubAmount) => {
-    const rate = 3.84; // фиксированный пример
-    return rubAmount / rate;
-};
+// Пример фиксированного курса
+const rate = 3.84;
 
-inputAmount.addEventListener('input', () => {
-    const rub = parseFloat(inputAmount.value);
+input.addEventListener('input', () => {
+    const rub = parseFloat(input.value);
     if (!isNaN(rub)) {
-        const czk = getRate(rub);
-        outputAmount.value = czk.toFixed(2);
+        const czk = rub / rate;
+        output.value = czk.toFixed(2);
     } else {
-        outputAmount.value = '';
+        output.value = '';
     }
 });
 
-// Кнопка "Поменять" — переход на следующую страницу
 exchangeBtn.addEventListener('click', () => {
-    // Например, можно использовать window.location.href
-    window.location.href = "next_page.html"; // или любой путь к следующей странице
+    window.location.href = 'next_page.html'; // или другая логика
 });
