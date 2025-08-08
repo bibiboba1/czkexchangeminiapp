@@ -2,11 +2,12 @@
 <html lang="ru">
 <head>
   <script>
-  // Если flow не cash, отправляем на обычный confirm.html
+  // На страницу для "Наличных" пускаем только если flow === 'cash'
   if (localStorage.getItem('flow') !== 'cash') {
     location.replace('confirm.html');
   }
 </script>
+
 
 
 
