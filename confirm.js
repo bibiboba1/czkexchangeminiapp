@@ -16,33 +16,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Обработка клика по кнопке "Создать заявку"
   document.querySelector('.btn-yellow')?.addEventListener('click', async () => {
-    const data = {
-      rub: localStorage.getItem('rub'),
-      czk: localStorage.getItem('czk'),
-      rate: localStorage.getItem('rate'),
-      method: localStorage.getItem('method'),
-      account: localStorage.getItem('account'),
-      name: localStorage.getItem('name'),
-      comment: localStorage.getItem('comment'),
-      time: localStorage.getItem('time')
-    };
+  const data = {
+    rub: localStorage.getItem('rub'),
+    czk: localStorage.getItem('czk'),
+    rate: localStorage.getItem('rate'),
+    method: localStorage.getItem('method'),
+    account: localStorage.getItem('account'),
+    name: localStorage.getItem('name'),
+    comment: localStorage.getItem('comment'),
+    time: localStorage.getItem('time')
+  };
 
-    try {
-      const res = await fetch('/api/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+  console.log('Отправка...', data); // ← добавь для отладки
 
-      const result = await res.json();
+  try {
+    const res = await fetch('/api/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
 
-      if (result.success) {
-        alert('Заявка отправлена!');
-      } else {
-        alert('Ошибка при отправке: ' + (result?.data?.description || 'Неизвестная ошибка'));
-      }
-    } catch (err) {
-      alert('Сервер не отвечает: ' + err.message);
+    const result = await res.json();
+
+    if (result.success) {
+      alert('Заявка отправлена!');
+    } else {
+      alert('Ошибка: ' + (result?.data?.description || 'Неизвестная'));
+    }
+  } catch (err) {
+    alert('Сервер не отвечает: ' + err.message);
     }
   });
 });
