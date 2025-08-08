@@ -87,3 +87,48 @@ h1 {
     width: 100%;
     max-width: 360px;
 }
+
+.rates {
+    margin-top: 20px;
+}
+
+.rate-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.rate-row .left {
+    display: flex;
+    align-items: center;
+}
+
+.rate-row img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.currency-info .currency-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.currency-info .currency-amount {
+    font-size: 12px;
+    color: #888;
+}
+
+.rate-row .right {
+    text-align: right;
+    font-size: 14px;
+}
+
+.rate-row .right b {
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+
