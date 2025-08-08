@@ -27,21 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = 'confirm.html';
   });
 
-  // "На счёт"
-document.getElementById('toAccount')?.addEventListener('click', () => {
-  localStorage.setItem('flow', 'account'); // флаг ветки
-  window.location.href = 'account.html';   // переход на страницу для ввода счёта
-});
-
-// "Наличные"
-document.getElementById('toCash')?.addEventListener('click', () => {
-  localStorage.setItem('flow', 'cash'); // флаг ветки
-  // чистим данные от ветки "На счёт"
-  localStorage.removeItem('account');
-  localStorage.removeItem('name');
-  window.location.href = 'cash.html';  // переход на выбор даты/времени
-});
-
 
   // Скрыть клавиатуру
   document.addEventListener('click', (e) => {
