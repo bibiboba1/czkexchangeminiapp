@@ -2,11 +2,12 @@
 <html lang="ru">
 <head>
   <script>
-  if (localStorage.getItem('flow') === 'cash') {
-    // Если выбран "Наличные", сюда попадать нельзя
-    location.replace('confirm_cash.html');
+  // На эту страницу допускаем только ветку "Наличные"
+  if (localStorage.getItem('flow') !== 'cash') {
+    location.replace('confirm.html');
   }
 </script>
+
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
