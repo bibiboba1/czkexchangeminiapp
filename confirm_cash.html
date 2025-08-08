@@ -5,17 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Подтверждение</title>
 
-  <!-- Общие стили -->
+  <!-- те же стили, что у confirm.html -->
   <link rel="stylesheet" href="style.css" />
-  <!-- Стили подтверждения -->
   <link rel="stylesheet" href="confirm.css" />
-
   <script defer src="confirm_cash.js"></script>
 </head>
 <body>
   <div class="container" id="confirmPage">
 
-    <!-- Шкала прогресса -->
+    <!-- ПРОГРЕСС: 1 и 2 пройдены, 3 — активный -->
     <div class="steps">
       <div class="circle done"></div>
       <div class="line"></div>
@@ -26,7 +24,7 @@
 
     <h1 class="page-title">Подтверждение</h1>
 
-    <!-- Блок обмена -->
+    <!-- Блок RUB -> CZK (как в confirm.html) -->
     <div class="cf-exchange">
       <div class="cf-side">
         <div class="cf-label">Отдаете RUB</div>
@@ -34,7 +32,7 @@
       </div>
 
       <div class="cf-arrow">
-        <img src="images/arrow.png" alt="→">
+        <img src="images/arrow.png" alt="→" />
       </div>
 
       <div class="cf-side">
@@ -43,8 +41,9 @@
       </div>
     </div>
 
-    <!-- Информация -->
+    <!-- ===== ИНФОРМАЦИЯ =====  -->
     <div class="cf-list">
+      <!-- ВМЕСТО двух полей: одно "Дата и время" -->
       <div class="cf-item">
         <div class="cf-item-label">Дата и время</div>
         <div class="cf-item-value" id="datetime">—</div>
@@ -70,3 +69,4 @@
   </div>
 </body>
 </html>
+
