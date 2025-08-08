@@ -64,20 +64,23 @@ body{
 }
 
 
-.input-wrapper input{
-  flex:1;
-  border:none;
-  outline:none;
-  font-size: 32px;                       /* большой “0” */
+.input-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 32px;
   line-height: 36px;
-  padding:0;
+  padding: 0;
+  max-width: 100%;
 }
 
+
 .input-wrapper .chip {
-  width: 96px;         /* было 118px */
-  height: auto;
-  max-width: 100%;     /* чтобы не выходило за край */
+  height: 36px;
+  width: auto;
+  flex-shrink: 0;
 }
+
 
 
 .switch-icon{
