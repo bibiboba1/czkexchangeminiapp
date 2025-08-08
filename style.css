@@ -311,27 +311,3 @@ body{
   height: auto;
 }
 
-/* Центрирование текста */
-.container {
-  text-align: center;
-}
-
-/* Стили кнопок выбора */
-.card.option {
-  padding: 18px;
-  background: #f9f9f9;
-  border-radius: 20px;
-  margin: 12px 0;
-}
-
-.option-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.option-subtitle {
-  font-size: 16px;
-  color: #555;
-}
-
