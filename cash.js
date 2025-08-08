@@ -67,7 +67,10 @@ btnNext.addEventListener('click', () => {
 
   // Переходим на confirm_cash.html, добавляем метку времени чтобы обойти кэш
   const v = Date.now();
-  window.location.href = `confirm_cash.html?v=${v}`;
+console.log('flow =', localStorage.getItem('flow'));
+console.log('next page → confirm_cash.html');
+window.location.href = `confirm_cash.html?v=${v}`;
+
 });
 
 
