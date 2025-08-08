@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Подтверждение</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script defer src="confirm.js"></script>
 </head>
 <body>
   <div class="container">
-
     <!-- Прогресс -->
     <div class="steps">
       <div class="circle done"></div>
@@ -20,22 +18,47 @@
       <div class="circle current"></div>
     </div>
 
+    <!-- Заголовок -->
     <h1 class="page-title">Подтверждение</h1>
 
-    <div class="card input-section">
-      <div class="row exchange-summary">
-        <span><strong>Отдаете RUB:</strong> <span id="rubAmount"></span></span>
-        <span><strong>Получаете CZK:</strong> <span id="czkAmount"></span></span>
+    <!-- Обмен -->
+    <div class="exchange-box">
+      <div class="exchange-side">
+        <span class="exchange-label">Отдаете RUB</span>
+        <div class="exchange-value" id="rubAmount"></div>
       </div>
 
-      <div class="info-box"><strong>Ваш номер счета:</strong> <span id="acc"></span></div>
-      <div class="info-box"><strong>Имя:</strong> <span id="username"></span></div>
-      <div class="info-box"><strong>Комментарий:</strong> <span id="commentText"></span></div>
-      <div class="info-box"><strong>Ожидаемое время перевода:</strong> <span id="time"></span></div>
+      <div class="exchange-arrow">
+        <img src="images/arrow.png" alt="→" />
+      </div>
 
-      <div class="row">
-        <div class="info-box"><strong>Курс:</strong> <span id="rate"></span></div>
-        <div class="info-box"><strong>Способ:</strong> <span id="method"></span></div>
+      <div class="exchange-side">
+        <span class="exchange-label">Получаете CZK</span>
+        <div class="exchange-value" id="czkAmount"></div>
+      </div>
+    </div>
+
+    <!-- Поля -->
+    <div class="info-box">
+      <div class="info-line">
+        <div class="info-label">Ваш номер счета</div>
+        <div class="info-value" id="acc"></div>
+      </div>
+
+      <div class="info-line">
+        <div class="info-label">Ожидаемое время перевода</div>
+        <div class="info-value" id="time"></div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-cell">
+          <div class="info-label">Курс</div>
+          <div class="info-value" id="rate"></div>
+        </div>
+        <div class="info-cell">
+          <div class="info-label">Способ</div>
+          <div class="info-value" id="method"></div>
+        </div>
       </div>
     </div>
 
@@ -44,7 +67,7 @@
     <div class="exchange-button">
       <button class="btn-yellow">Создать заявку</button>
     </div>
-
   </div>
 </body>
 </html>
+
