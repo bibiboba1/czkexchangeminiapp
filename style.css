@@ -242,6 +242,7 @@ body{
   margin: 0 auto;
 }
 
+/* Прогресс шагов */
 .steps {
   display: flex;
   justify-content: center;
@@ -274,11 +275,18 @@ body{
   border: 6px solid black;
 }
 
+/* Центрирование заголовков */
+.page-title {
+  text-align: center;
+}
+
+/* Карточки выбора */
 .card.option {
   background: #f4f5f6;
   border-radius: 20px;
   padding: 24px;
   margin-bottom: 16px;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -293,23 +301,17 @@ body{
   color: #444;
 }
 
-/* Назад */
+/* Кнопка Назад — нижняя, желтая */
+.exchange-button {
+  margin-top: 40px;
+  text-align: center;
+}
+
 .exchange-button img {
   width: 100%;
-  max-width: 480px;
-  margin: 28px auto 0;
+  max-width: 560px;
+  height: auto;
   display: block;
+  margin: 0 auto;
   border-radius: 20px;
 }
-/* Кнопка "Назад" */
-.back-button {
-  display: inline-block;
-  margin: 14px 0 0 4px;
-}
-.back-button img {
-  width: 42px;
-  height: auto;
-}
-
-
-
