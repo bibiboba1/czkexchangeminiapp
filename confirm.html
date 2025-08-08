@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Подтверждение</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="confirm.js"></script>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Прогресс -->
+    <div class="steps">
+      <div class="circle done"></div>
+      <div class="line"></div>
+      <div class="circle done"></div>
+      <div class="line"></div>
+      <div class="circle current"></div>
+    </div>
+
+    <h1 class="page-title">Подтверждение</h1>
+
+    <div class="card input-section">
+      <div class="row exchange-summary">
+        <span><strong>Отдаете RUB:</strong> <span id="rubAmount"></span></span>
+        <span><strong>Получаете CZK:</strong> <span id="czkAmount"></span></span>
+      </div>
+
+      <div class="info-box"><strong>Ваш номер счета:</strong> <span id="acc"></span></div>
+      <div class="info-box"><strong>Имя:</strong> <span id="username"></span></div>
+      <div class="info-box"><strong>Комментарий:</strong> <span id="commentText"></span></div>
+      <div class="info-box"><strong>Ожидаемое время перевода:</strong> <span id="time"></span></div>
+
+      <div class="row">
+        <div class="info-box"><strong>Курс:</strong> <span id="rate"></span></div>
+        <div class="info-box"><strong>Способ:</strong> <span id="method"></span></div>
+      </div>
+    </div>
+
+    <p class="note">Если всё верно — перейдите к оплате</p>
+
+    <div class="exchange-button">
+      <button class="btn-yellow">Создать заявку</button>
+    </div>
+
+  </div>
+</body>
+</html>
