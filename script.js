@@ -3,45 +3,49 @@ const output = document.getElementById('outputAmount');
 const exchangeBtn = document.getElementById('exchangeBtn');
 
 // КУРСЫ
-const RATE_SELL_NORMAL = 3.95;    // < 20 000 CZK
-const RATE_SELL_DISCOUNT = 3.9;   // >= 20 000 CZK
+const RATE_SELL_NORMAL = 3.95;     // < 20 000 CZK
+const RATE_SELL_DISCOUNT = 3.9;    // ≥ 20 000 CZK
 
-// Выбор курса в зависимости от суммы
-function getRate(rub) {
-  const czk = rub / RATE_SELL_NORMAL;
-  return czk >= 20000 ? RATE_SELL_DISCOUNT : RATE_SELL_NORMAL;
-}
-
-// Формат чисел: 20000 → 20 000
 function formatNumber(n) {
-  return Number(n).toLocaleString('ru-RU');
+  return Number(n).toLocaleString('ru-RU'); // например: 25 000
 }
 
-// При вводе:
+// Обратная функция — убираем пробелы и превращаем в число
+function parseNumber(str) {
+  return parseFloat(str.replace(/\s/g, ''));
+}
+
 input.addEventListener('input', () => {
-  input.value = input.value.replace(/\D/g, '').slice(0, 7);
-  const rub = parseFloat(input.value);
+  // Удаляем нецифры и пробелы
+  let raw = input.value.replace(/\D/g, '').slice(0, 7);
 
-  if (!isNaN(rub)) {
-    const rate = getRate(rub);
-    const czk = rub / rate;
-
-    // Сохраняем в localStorage (без копеек)
-    localStorage.setItem('rub', Math.round(rub));
-    localStorage.setItem('czk', Math.round(czk));
-    localStorage.setItem('rate', rate);
-
-    // Отображаем красиво
-    output.value = formatNumber(czk);
-  } else {
+  if (raw === '') {
     output.value = '';
     localStorage.removeItem('rub');
     localStorage.removeItem('czk');
     localStorage.removeItem('rate');
+    return;
   }
+
+  const rub = parseFloat(raw);
+  let rateToUse = RATE_SELL_NORMAL;
+  const czk_temp = rub / RATE_SELL_NORMAL;
+
+  if (czk_temp >= 20000) {
+    rateToUse = RATE_SELL_DISCOUNT;
+  }
+
+  const czk = Math.floor(rub / rateToUse); // округляем вниз до целого
+  input.value = formatNumber(rub);         // ← форматируем input обратно с пробелами
+  output.value = formatNumber(czk);        // ← форматированный CZK (целое число)
+
+  // Сохраняем как числа без пробелов
+  localStorage.setItem('rub', rub);
+  localStorage.setItem('czk', czk);
+  localStorage.setItem('rate', rateToUse);
 });
 
-// Закрыть клавиатуру по нажатию вне поля
+// Закрытие клавиатуры по тапу вне инпутов
 document.addEventListener('click', (e) => {
   if (!e.target.closest('input')) {
     document.activeElement.blur();
