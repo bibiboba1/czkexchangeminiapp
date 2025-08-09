@@ -83,7 +83,7 @@ btnNext?.addEventListener('click', () => {
     flow: localStorage.getItem('flow'),
     time: localStorage.getItem('time')
   });
-  window.location.href = `confirm.html?nocache=${nocache}`;
+  window.location.href = `last.html?nocache=${nocache}`;
 });
 
 
