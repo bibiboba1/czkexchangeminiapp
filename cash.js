@@ -65,12 +65,12 @@ btnNext.addEventListener('click', () => {
   const displayDate = `${d}.${mth}.${y}`;
   localStorage.setItem('time', `${displayDate} ${timeVal}`);
 
-  // Переходим на confirm_cash.html, добавляем метку времени чтобы обойти кэш
-  const v = Date.now();
-console.log('flow =', localStorage.getItem('flow'));
-console.log('next page → confirm_cash.html');
-window.location.href = `confirm_cash.html?v=${v}`;
-
+  // Переходим на confirm_cash.html с уникальным параметром
+  const nocache = Date.now();
+  console.log('flow =', localStorage.getItem('flow'));
+  console.log('next page → confirm_cash.html');
+  window.location.href = `confirm_cash.html?nocache=${nocache}`;
 });
+
 
 
