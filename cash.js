@@ -69,7 +69,7 @@ btnNext.addEventListener('click', () => {
   const nocache = Date.now();
   console.log('flow =', localStorage.getItem('flow'));
   console.log('next page → confirm_cash.html');
-  window.location.href = `confirm_cash.html?nocache=${nocache}`;
+  window.location.href = `confirm.html?nocache=${nocache}`;
 });
 
 
