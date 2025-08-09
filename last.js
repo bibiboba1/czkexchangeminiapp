@@ -20,9 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!document.getElementById('confirmPage')) return;
 
   // --- Telegram Mini App user ---
-  const tg = window.Telegram?.WebApp;
-  try { tg?.ready(); } catch(e) {}
-  const u = tg?.initDataUnsafe?.user || null;
+const tg = window.Telegram?.WebApp;
+try {
+  tg?.ready();
+  tg?.expand(); // разворачиваем веб-апп на всю высоту
+} catch (e) {}
+
+const initData = tg?.initData || '';              // подписанная строка от Telegram
+const u = tg?.initDataUnsafe?.user || null;
+
+console.log('[TG initDataUnsafe.user]', u);
+if (!u) {
+  console.warn('⚠️ Telegram user пуст. Скорее всего, мини-апп открыт не через кнопку web_app в чате бота.');
+  // Можно один раз подсказать пользователю:
+  // alert('Откройте приложение через кнопку в чате бота, чтобы мы увидели ваш Telegram ID');
+}
+
 
   // для лога
   console.log('[TG user initDataUnsafe]', u);
@@ -61,21 +74,26 @@ document.addEventListener('DOMContentLoaded', () => {
   btn?.addEventListener('click', async () => {
     // собираем данные заявки
     const payload = {
-      flow:    getLS('flow', 'account'),
-      method:  methodOut,
-      rub:     getLS('rub', '0'),
-      czk:     getLS('czk', '0'),
-      rate:    getLS('rate', '-'),
-      account: accOut,
-      name:    getLS('name', '-'),
-      comment: getLS('comment', '-'),
-      time:    timeOut,
+  flow:    getLS('flow', 'account'),
+  method:  methodOut,
+  rub:     getLS('rub', '0'),
+  czk:     getLS('czk', '0'),
+  rate:    getLS('rate', '-'),
+  account: accOut,
+  name:    getLS('name', '-'),
+  comment: getLS('comment', '-'),
+  time:    timeOut,
 
-      // данные пользователя из Mini App
-      user_id:       u?.id ?? 'неизвестно',
-      user_username: u?.username ?? 'нет',
-      user_name:     [u?.first_name, u?.last_name].filter(Boolean).join(' ') || 'нет'
-    };
+  // данные пользователя из Mini App
+  user_id:       u?.id ?? 'неизвестно',
+  user_username: u?.username ?? 'нет',
+  user_name:     [u?.first_name, u?.last_name].filter(Boolean).join(' ') || 'нет',
+
+  // для диагностики/валидации
+  tg_init_data: initData,
+  tg_platform: tg?.platform || ''
+};
+
 
     console.log('[send payload]', payload);
 
