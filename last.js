@@ -17,6 +17,28 @@ function getParams(){
 document.addEventListener('DOMContentLoaded', () => {
   if (!document.getElementById('confirmPage')) return;
 
+  function getParams() {
+  const p = new URLSearchParams(location.search);
+  return {
+    uid:   p.get('uid') || '',
+    uname: p.get('uname') || '',
+    name:  p.get('name') || '',
+    phone: p.get('phone') || ''
+  };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const qp = getParams();
+  console.log('[URL params]', qp);
+
+  // при отправке заявки включи их в payload:
+  payload.user_id = qp.uid;
+  payload.user_username = qp.uname;
+  payload.user_name = qp.name;
+  payload.phone = qp.phone;
+});
+
+
   // Telegram WebApp SDK (если мини-апп открыт из чата)
   const tg = window.Telegram?.WebApp;
   try { tg?.ready(); tg?.expand?.(); } catch(e) {}
