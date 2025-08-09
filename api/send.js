@@ -38,8 +38,8 @@ export default async function handler(req, res) {
       `Комментарий: <b>${esc(comment)}</b>\n` +
       `Время: <b>${esc(time)}</b>`;
 
-    const token = process.env.8086537306:AAGBWegYWFI0OxESqPHICyTrlrpnanoRPdg;
-    const chatId = process.env.2736797226;
+    const token = process.env.TELEGRAM_BOT_TOKEN;
+    const chatId = process.env.TELEGRAM_CHAT_ID;
 
     if (!token || !chatId) {
       return res.status(500).json({
