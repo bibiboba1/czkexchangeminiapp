@@ -1,3 +1,4 @@
+console.log('CONFIRM SCRIPT LOADED v3');
 // confirm.js — единая страница подтверждения (без name/comment)
 
 function formatNumber(n) {
