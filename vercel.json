@@ -1,8 +1,24 @@
 {
   "headers": [
     {
-      "source": "/.*\\.html",
-      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+      "source": "/:path*.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/:path*.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/confirm.html",
+      "destination": "/last.html",
+      "permanent": false
     }
   ]
 }
+
