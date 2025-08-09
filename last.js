@@ -1,16 +1,18 @@
-console.log('LAST SCRIPT LOADED v6');
+console.log('LAST SCRIPT LOADED');
 
-// формат числа
+// Форматирование чисел
 function formatNumber(n) {
   const num = Number(n);
   return Number.isFinite(num) ? num.toLocaleString('ru-RU') : '0';
 }
-// безопасная подстановка
+
+// Безопасная установка текста
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value ?? '';
 }
-// чтение LS с дефолтом
+
+// Функция для получения значения из localStorage с дефолтом
 function getLS(key, fallback = '-') {
   const v = localStorage.getItem(key);
   return (v === null || v === '') ? fallback : v;
@@ -19,7 +21,6 @@ function getLS(key, fallback = '-') {
 document.addEventListener('DOMContentLoaded', () => {
   if (!document.getElementById('confirmPage')) return;
 
-  // ----- заполняем экран значениями -----
   const raw = {
     flow:   localStorage.getItem('flow'),
     rub:    localStorage.getItem('rub') || 0,
@@ -29,10 +30,17 @@ document.addEventListener('DOMContentLoaded', () => {
     method: localStorage.getItem('method'),
     time:   localStorage.getItem('time')
   };
-  const isCash    = raw.flow === 'cash' || raw.method === 'Наличные';
+
+  if (!raw.flow && !raw.method) {
+    console.warn('[last] no flow/method — redirect to index');
+    window.location.replace('index.html');
+    return;
+  }
+
+  const isCash = raw.flow === 'cash' || raw.method === 'Наличные';
   const methodOut = isCash ? 'Наличные' : (raw.method || 'На счёт');
   const accOut    = isCash ? '-'        : raw.acc;
-  const timeOut   = isCash ? (raw.time || '—') : (raw.time || 'До 24 часов');
+  const timeOut   = isCash ? (raw.time || '—') : (raw.time || 'до 24 часов');
 
   setText('rubAmount', formatNumber(raw.rub));
   setText('czkAmount', formatNumber(raw.czk));
@@ -41,71 +49,69 @@ document.addEventListener('DOMContentLoaded', () => {
   setText('acc',       accOut);
   setText('time',      timeOut);
 
-  // ----- данные пользователя из Telegram Mini App -----
-  const tg = window.Telegram?.WebApp;
-  const tgUser = tg?.initDataUnsafe?.user || null;
-
-  // Сохраним в LS как запасной вариант (на случай повторного клика)
-  if (tgUser) {
-    localStorage.setItem('tg_user_id', String(tgUser.id));
-    if (tgUser.username)   localStorage.setItem('tg_username', tgUser.username);
-    if (tgUser.first_name) localStorage.setItem('tg_first_name', tgUser.first_name);
-    if (tgUser.last_name)  localStorage.setItem('tg_last_name', tgUser.last_name);
-  }
-
-  // ЕДИНСТВЕННЫЙ обработчик "Создать заявку"
-  const btn = document.querySelector('.btn-yellow');
-  btn?.addEventListener('click', async () => {
-    const flow      = getLS('flow', 'account');
-    const rub       = getLS('rub', '0');
-    const czk       = getLS('czk', '0');
-    const rate      = getLS('rate', '-');
-    const method    = (flow === 'cash') ? 'Наличные' : 'На счёт';
-    const account   = (flow === 'cash') ? '-' : getLS('account', '-');
-    const name      = getLS('name', '-');
-    const comment   = getLS('comment', '-');
-    const time      = (flow === 'cash') ? getLS('time', '—') : getLS('time', 'До 24 часов');
-
-    // user info (из WebApp или из LS)
-    const user_id    = tgUser?.id ?? getLS('tg_user_id', '');
-    const username   = tgUser?.username ?? getLS('tg_username', '');
-    const first_name = tgUser?.first_name ?? getLS('tg_first_name', '');
-    const last_name  = tgUser?.last_name ?? getLS('tg_last_name', '');
-
-    const payload = {
-      flow, method, rub, czk, rate, account, name, comment, time,
-      user: {
-        id: user_id,
-        username,
-        first_name,
-        last_name
-      }
+  // === Обработчик кнопки ===
+  document.querySelector('.btn-yellow')?.addEventListener('click', async () => {
+    // Получаем данные пользователя из Telegram Mini App
+    let tgUser = {
+      id: 'неизвестно',
+      username: 'нет',
+      name: 'нет'
     };
 
-    const t = btn.textContent;
+    if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
+      const u = Telegram.WebApp.initDataUnsafe.user;
+      if (u) {
+        tgUser.id = u.id || 'неизвестно';
+        tgUser.username = u.username || 'нет';
+        tgUser.name = (u.first_name || '') + (u.last_name ? ' ' + u.last_name : '');
+      }
+    }
+
+    const payload = {
+      flow: getLS('flow', 'account'),
+      method: methodOut,
+      rub: getLS('rub', '0'),
+      czk: getLS('czk', '0'),
+      rate: getLS('rate', '-'),
+      account: accOut,
+      name: getLS('name', '-'),
+      comment: getLS('comment', '-'),
+      time: timeOut,
+      user_id: tgUser.id,
+      user_username: tgUser.username,
+      user_name: tgUser.name
+    };
+
+    console.log('Отправка заявки...', payload);
+
+    const btn = document.querySelector('.btn-yellow');
+    const originalText = btn.textContent;
     btn.disabled = true;
     btn.textContent = 'Отправляем...';
 
     try {
       const res = await fetch('/api/send', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
+
       const json = await res.json().catch(() => ({}));
       if (!res.ok || !json.success) {
         throw new Error(json?.error || 'Не удалось отправить заявку');
       }
+
       window.location.href = 'success.html';
     } catch (e) {
       alert('Ошибка отправки: ' + e.message);
       console.error('[send] error:', e);
     } finally {
       btn.disabled = false;
-      btn.textContent = t;
+      btn.textContent = originalText;
     }
   });
 });
+
 
 
 
