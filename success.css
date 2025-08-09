@@ -35,3 +35,22 @@
 
 /* На всякий — гарантируем чёрный текст на желтой кнопке */
 .btn-yellow { color: black; }
+
+.success-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* центрируем по вертикали */
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  padding: 0 20px;
+  transform: translateY(-20px); /* поднимаем весь контент на 20px */
+}
+
+.exchange-button {
+  margin-top: auto;
+  padding: 0 16px;
+  margin-bottom: 30px; /* поднимаем кнопку выше */
+}
+
+
