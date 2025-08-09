@@ -1,4 +1,9 @@
+// account.js — страница ввода реквизитов "На счёт"
 localStorage.setItem('flow', 'account');
+
+// Очищаем данные от ветки "Наличные"
+localStorage.removeItem('time');
+localStorage.removeItem('method');
 
 document.addEventListener('DOMContentLoaded', () => {
   // Кнопка Далее
@@ -24,14 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('method', method);
     localStorage.setItem('time', time);
 
-    window.location.href = 'confirm.html';
+    // Переход с параметром, чтобы избежать кеша
+    window.location.href = `confirm.html?nocache=${Date.now()}`;
   });
 
-
-  // Скрыть клавиатуру
+  // Скрыть клавиатуру при клике вне input
   document.addEventListener('click', (e) => {
     if (!e.target.closest('input')) {
       document.activeElement.blur();
     }
   });
 });
+
