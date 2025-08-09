@@ -81,6 +81,14 @@
       <img src="images/button.png" alt="Поменять" />
     </div>
   </div>
+  <script>
+  // Сбрасываем состояние при входе на сайт (подкорректируй список ключей по желанию)
+  document.addEventListener('DOMContentLoaded', () => {
+    const keys = ['flow','account','name','comment','method','time','rub','czk','rate'];
+    for (const k of keys) localStorage.removeItem(k);
+  });
+</script>
+
 </body>
 </html>
 
