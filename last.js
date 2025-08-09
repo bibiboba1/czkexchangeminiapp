@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const comment= getLS('comment', '-');
     const time   = (flow === 'cash')
       ? getLS('time', '—')
-      : getLS('time', 'до 1 часа');
+      : getLS('time', 'До 24 часов');
 
     const payload = {
       flow, method, rub, czk, rate, account, name, comment, time
