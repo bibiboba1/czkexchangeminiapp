@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const czk = localStorage.getItem('czk') || '250';
     const rate = localStorage.getItem('rate') || '3.95';
     const method = 'На счёт';
-    const time = 'до 1 часа';
+    const time = 'до 24 часов';
 
     // Сохраняем в localStorage
     localStorage.setItem('account', account);
