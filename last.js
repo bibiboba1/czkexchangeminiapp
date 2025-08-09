@@ -15,15 +15,15 @@ function setText(id, value) {
  // if (!document.getElementById('confirmPage')) return;
 
   //// Читаем хранилище
- / const raw = {
-  //  flow:   localStorage.getItem('flow'),         // 'account' | 'cash' | null
-   // rub:    localStorage.getItem('rub') || 0,
- //   czk:    localStorage.getItem('czk') || 0,
-  //  rate:   localStorage.getItem('rate') || '',
- //   acc:    localStorage.getItem('account') || '',
- //   method: localStorage.getItem('method'),       // 'На счёт' | 'Наличные' | null
- //   time:   localStorage.getItem('time')          // 'ДД.ММ.ГГГГ ЧЧ:ММ - ЧЧ:ММ'
- // };
+  const raw = {
+    flow:   localStorage.getItem('flow'),         // 'account' | 'cash' | null
+    rub:    localStorage.getItem('rub') || 0,
+    czk:    localStorage.getItem('czk') || 0,
+    rate:   localStorage.getItem('rate') || '',
+    acc:    localStorage.getItem('account') || '',
+    method: localStorage.getItem('method'),       // 'На счёт' | 'Наличные' | null
+   time:   localStorage.getItem('time')          // 'ДД.ММ.ГГГГ ЧЧ:ММ - ЧЧ:ММ'
+  };
 
   // Если зашли напрямую без выбора — вернём на старт
   if (!raw.flow && !raw.method) {
@@ -76,8 +76,4 @@ requestAnimationFrame(() => {
 });
 
 
-  // Кнопка отправки — твоя логика
-  document.querySelector('.btn-yellow')?.addEventListener('click', async () => {
-    // …/api/send…
-  });
-});
+  
