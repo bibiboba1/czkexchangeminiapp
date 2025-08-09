@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isCash   = raw.flow === 'cash' || raw.method === 'Наличные';
   const methodOut= isCash ? 'Наличные' : (raw.method || 'На счёт');
   const accOut   = isCash ? '-'        : raw.acc;
-  const timeOut  = isCash ? (raw.time || '—') : (raw.time || 'до 1 часа');
+  const timeOut  = isCash ? (raw.time || '—') : (raw.time || 'до 24 часов');
 
   setText('rubAmount', formatNumber(raw.rub));
   setText('czkAmount', formatNumber(raw.czk));
