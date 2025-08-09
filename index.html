@@ -1,68 +1,44 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Подтверждение</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="confirm.css" />
-  <script defer src="last.js"></script>
-</head>
-<body>
-  <div class="container" id="lastPage">
-
-    <!-- Шаги -->
-    <div class="steps">
-      <div class="circle done"></div>
-      <div class="line"></div>
-      <div class="circle done"></div>
-      <div class="line"></div>
-      <div class="circle active"></div>
-    </div>
-
-    <h1 class="page-title">Подтверждение</h1>
-
-    <!-- Суммы -->
-    <div class="cf-exchange">
-      <div class="cf-side">
-        <div class="cf-label">Отдаёте RUB</div>
-        <div class="cf-value" id="rubAmount">—</div>
-      </div>
-      <div class="cf-arrow"><img src="images/arrow.png" alt="→"></div>
-      <div class="cf-side">
-        <div class="cf-label">Получаете CZK</div>
-        <div class="cf-value" id="czkAmount">—</div>
-      </div>
-    </div>
-
-    <!-- Данные -->
-    <div class="cf-list">
-      <div class="cf-item">
-        <div class="cf-item-label">Ваш номер счёта</div>
-        <div class="cf-item-value" id="acc">—</div>
-      </div>
-      <div class="cf-item">
-        <div class="cf-item-label">Время</div>
-        <div class="cf-item-value" id="time">—</div>
-      </div>
-      <div class="cf-row">
-        <div class="cf-item">
-          <div class="cf-item-label">Курс</div>
-          <div class="cf-item-value" id="rate">—</div>
+        <div class="left">
+          <img class="flag" src="images/czk_flag_round.png" alt="CZK" />
+          <div class="currency-info">
+            <div class="currency-name">CZK</div>
+            <div class="currency-amount">&lt; 20 000 CZK</div>
+          </div>
         </div>
-        <div class="cf-item">
-          <div class="cf-item-label">Способ</div>
-          <div class="cf-item-value" id="method">—</div>
+        <div class="right">
+          <div class="labels">
+            <span>Покупка</span>
+            <span>Продажа</span>
+          </div>
+          <div class="values">
+            <span class="val">3.7</span>
+            <span class="val">3.95</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- > 20 000 -->
+      <div class="rate-row">
+        <div class="left">
+          <img class="flag" src="images/czk_flag_round.png" alt="CZK" />
+          <div class="currency-info">
+            <div class="currency-name">CZK</div>
+            <div class="currency-amount">&gt; 20 000 CZK</div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="values">
+            <span class="val">3.75</span>
+            <span class="val">3.9</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <p class="note center">Если всё верно — перейдите к оплате</p>
-
-    <div class="exchange-button">
-      <button class="btn-yellow">Создать заявку</button>
+    <!-- Кнопка ниже, как в макете -->
+    <div class="exchange-button" id="exchangeBtn">
+      <img src="images/button.png" alt="Поменять" />
     </div>
-
   </div>
 </body>
 </html>
