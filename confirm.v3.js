@@ -10,19 +10,19 @@ function setText(id, value) {
   if (el) el.textContent = value ?? '';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (!document.getElementById('confirmPage')) return;
+//document.addEventListener('DOMContentLoaded', () => {
+ // if (!document.getElementById('confirmPage')) return;
 
-  // Читаем хранилище
-  const raw = {
-    flow:   localStorage.getItem('flow'),         // 'account' | 'cash' | null
-    rub:    localStorage.getItem('rub') || 0,
-    czk:    localStorage.getItem('czk') || 0,
-    rate:   localStorage.getItem('rate') || '',
-    acc:    localStorage.getItem('account') || '',
-    method: localStorage.getItem('method'),       // 'На счёт' | 'Наличные' | null
-    time:   localStorage.getItem('time')          // 'ДД.ММ.ГГГГ ЧЧ:ММ - ЧЧ:ММ'
-  };
+  //// Читаем хранилище
+ / const raw = {
+  //  flow:   localStorage.getItem('flow'),         // 'account' | 'cash' | null
+   // rub:    localStorage.getItem('rub') || 0,
+ //   czk:    localStorage.getItem('czk') || 0,
+  //  rate:   localStorage.getItem('rate') || '',
+ //   acc:    localStorage.getItem('account') || '',
+ //   method: localStorage.getItem('method'),       // 'На счёт' | 'Наличные' | null
+ //   time:   localStorage.getItem('time')          // 'ДД.ММ.ГГГГ ЧЧ:ММ - ЧЧ:ММ'
+ // };
 
   // Если зашли напрямую без выбора — вернём на старт
   if (!raw.flow && !raw.method) {
