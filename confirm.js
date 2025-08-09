@@ -1,10 +1,9 @@
-// confirm.js — единая страница подтверждения для веток "На счёт" и "Наличные"
+// confirm.js — единая страница подтверждения
 
 function formatNumber(n) {
   const num = Number(n);
   return Number.isFinite(num) ? num.toLocaleString('ru-RU') : '0';
 }
-
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value ?? '';
@@ -13,43 +12,53 @@ function setText(id, value) {
 document.addEventListener('DOMContentLoaded', () => {
   if (!document.getElementById('confirmPage')) return;
 
-  const flow         = localStorage.getItem('flow') || 'account'; // 'account' | 'cash'
-  const rub          = localStorage.getItem('rub') || 0;
-  const czk          = localStorage.getItem('czk') || 0;
-  const rate         = localStorage.getItem('rate') || '';
-  const account      = localStorage.getItem('account') || '';
-  const name         = localStorage.getItem('name') || '';
-  const comment      = localStorage.getItem('comment') || '';
-  const storedMethod = localStorage.getItem('method');
-  const storedTime   = localStorage.getItem('time');
+  // Базовые данные из хранилища
+  const raw = {
+    flow:   localStorage.getItem('flow'),         // 'account' | 'cash' | null
+    rub:    localStorage.getItem('rub') || 0,
+    czk:    localStorage.getItem('czk') || 0,
+    rate:   localStorage.getItem('rate') || '',
+    acc:    localStorage.getItem('account') || '',
+    name:   localStorage.getItem('name') || '',
+    comm:   localStorage.getItem('comment') || '',
+    method: localStorage.getItem('method'),       // 'На счёт' | 'Наличные' | null
+    time:   localStorage.getItem('time')          // 'ДД.ММ.ГГГГ ЧЧ:ММ - ЧЧ:ММ'
+  };
 
-  let methodOut, timeOut, accOut;
-
-  if (flow === 'cash') {
-    methodOut = 'Наличные';         // фиксируем "Наличные"
-    accOut    = '-';                // счёта нет
-    timeOut   = storedTime || '—';  // дата и время с cash-экрана
-  } else {
-    methodOut = storedMethod || 'На счёт';
-    accOut    = account;
-    timeOut   = storedTime || 'до 1 часа';
+  // Если пришли на confirm.html “напрямую” без выбора — отправим на старт
+  if (!raw.flow && !raw.method) {
+    console.warn('[confirm] no flow/method — redirect to index');
+    window.location.replace('index.html');
+    return;
   }
 
-  // Для быстрой отладки
-  console.log('[confirm] flow=', flow, { methodOut, timeOut, accOut, storedTime });
+  // Надёжное определение ветки:
+  // 1) верим flow, 2) если flow нет — смотрим на method
+  const isCash = raw.flow === 'cash' || raw.method === 'Наличные';
 
-  setText('rubAmount', formatNumber(rub));
-  setText('czkAmount', formatNumber(czk));
-  setText('rate',      rate);
+  // Рассчитываем выводимые поля
+  const methodOut = isCash ? 'Наличные' : (raw.method || 'На счёт');
+  const accOut    = isCash ? '-'        : raw.acc;
+  const timeOut   = isCash ? (raw.time || '—') : (raw.time || 'до 1 часа');
+
+  // Логи для быстрой диагностики
+  console.log('[confirm]', { ...raw, isCash, methodOut, accOut, timeOut });
+
+  // Подстановка
+  setText('rubAmount', formatNumber(raw.rub));
+  setText('czkAmount', formatNumber(raw.czk));
+  setText('rate',      raw.rate);
   setText('method',    methodOut);
-  setText('acc',       accOut);     // "Ваш номер счета"
-  setText('time',      timeOut);    // "Ожидаемое время"
-  setText('username',  name);       // если этих id нет в HTML — просто пропустится
-  setText('commentText', comment);
+  setText('acc',       accOut);
+  setText('time',      timeOut);
+  setText('username',  raw.name);     // если этих id нет — просто пропустится
+  setText('commentText', raw.comm);
 
+  // Кнопка отправки — твоя логика здесь
   document.querySelector('.btn-yellow')?.addEventListener('click', async () => {
-    // …твой код отправки /api/send…
+    // …/api/send…
   });
 });
+
 
 
