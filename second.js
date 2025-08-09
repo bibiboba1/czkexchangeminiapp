@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('flow', 'cash');
     localStorage.removeItem('account');   // чтобы не тащилось из account
     localStorage.removeItem('name');
-    window.location.href = 'confirm_cash.html';
+    window.location.href = 'cash.html';
   });
 
   // Назад
