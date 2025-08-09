@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const account = (flow === 'cash') ? '-' : getLS('account', '-');
     const name    = getLS('name', '-');
     const comment = getLS('comment', '-');
-    const time    = (flow === 'cash') ? getLS('time', '—') : getLS('time', 'до 1 часа');
+    const time    = (flow === 'cash') ? getLS('time', '—') : getLS('time', 'до 24 часов');
 
     const payload = { flow, method, rub, czk, rate, account, name, comment, time };
 
