@@ -1,0 +1,37 @@
+/* Контейнер на всю высоту, чтобы кнопка “прижималась” вниз */
+.success-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+/* Центральная зона с заголовком и подписью */
+.success-hero {
+  margin-top: auto;             /* центрируем по вертикали */
+  text-align: center;
+}
+
+.success-title {
+  font-size: 36px;
+  line-height: 1.15;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+}
+
+.success-subtitle {
+  color: #777;                  /* мягко-серый, как на скрине */
+  font-size: 18px;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* Кнопка снизу */
+.exchange-button {
+  margin-top: auto;
+  padding: 0 16px;
+}
+
+/* На всякий — гарантируем чёрный текст на желтой кнопке */
+.btn-yellow { color: black; }
