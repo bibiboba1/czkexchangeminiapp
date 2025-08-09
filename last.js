@@ -47,8 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('.btn-yellow')?.addEventListener('click', () => {
     console.log('Отправка заявки...', { ...raw, methodOut, accOut, timeOut });
-    // здесь твой fetch на сервер
+    window.location.href = 'success.html';
   });
+  
 });
 
 
