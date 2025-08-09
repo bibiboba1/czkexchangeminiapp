@@ -1,18 +1,16 @@
-console.log('LAST SCRIPT LOADED');
+console.log('LAST SCRIPT LOADED v7');
 
-// Форматирование чисел
+// формат числа → "20 000"
 function formatNumber(n) {
   const num = Number(n);
   return Number.isFinite(num) ? num.toLocaleString('ru-RU') : '0';
 }
-
-// Безопасная установка текста
+// безопасная подстановка текста
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value ?? '';
 }
-
-// Функция для получения значения из localStorage с дефолтом
+// чтение из LS с дефолтом
 function getLS(key, fallback = '-') {
   const v = localStorage.getItem(key);
   return (v === null || v === '') ? fallback : v;
@@ -21,6 +19,15 @@ function getLS(key, fallback = '-') {
 document.addEventListener('DOMContentLoaded', () => {
   if (!document.getElementById('confirmPage')) return;
 
+  // --- Telegram Mini App user ---
+  const tg = window.Telegram?.WebApp;
+  try { tg?.ready(); } catch(e) {}
+  const u = tg?.initDataUnsafe?.user || null;
+
+  // для лога
+  console.log('[TG user initDataUnsafe]', u);
+
+  // --- заполнение экрана значениями ---
   const raw = {
     flow:   localStorage.getItem('flow'),
     rub:    localStorage.getItem('rub') || 0,
@@ -37,10 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const isCash = raw.flow === 'cash' || raw.method === 'Наличные';
-  const methodOut = isCash ? 'Наличные' : (raw.method || 'На счёт');
-  const accOut    = isCash ? '-'        : raw.acc;
-  const timeOut   = isCash ? (raw.time || '—') : (raw.time || 'до 24 часов');
+  const isCash   = raw.flow === 'cash' || raw.method === 'Наличные';
+  const methodOut= isCash ? 'Наличные' : (raw.method || 'На счёт');
+  const accOut   = isCash ? '-'        : raw.acc;
+  const timeOut  = isCash ? (raw.time || '—') : (raw.time || 'До 24 часов');
 
   setText('rubAmount', formatNumber(raw.rub));
   setText('czkAmount', formatNumber(raw.czk));
@@ -49,68 +56,54 @@ document.addEventListener('DOMContentLoaded', () => {
   setText('acc',       accOut);
   setText('time',      timeOut);
 
-  // === Обработчик кнопки ===
-  document.querySelector('.btn-yellow')?.addEventListener('click', async () => {
-    // Получаем данные пользователя из Telegram Mini App
-    let tgUser = {
-      id: 'неизвестно',
-      username: 'нет',
-      name: 'нет'
-    };
-
-    if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
-      const u = Telegram.WebApp.initDataUnsafe.user;
-      if (u) {
-        tgUser.id = u.id || 'неизвестно';
-        tgUser.username = u.username || 'нет';
-        tgUser.name = (u.first_name || '') + (u.last_name ? ' ' + u.last_name : '');
-      }
-    }
-
+  // --- отправка заявки ---
+  const btn = document.querySelector('.btn-yellow');
+  btn?.addEventListener('click', async () => {
+    // собираем данные заявки
     const payload = {
-      flow: getLS('flow', 'account'),
-      method: methodOut,
-      rub: getLS('rub', '0'),
-      czk: getLS('czk', '0'),
-      rate: getLS('rate', '-'),
+      flow:    getLS('flow', 'account'),
+      method:  methodOut,
+      rub:     getLS('rub', '0'),
+      czk:     getLS('czk', '0'),
+      rate:    getLS('rate', '-'),
       account: accOut,
-      name: getLS('name', '-'),
+      name:    getLS('name', '-'),
       comment: getLS('comment', '-'),
-      time: timeOut,
-      user_id: tgUser.id,
-      user_username: tgUser.username,
-      user_name: tgUser.name
+      time:    timeOut,
+
+      // данные пользователя из Mini App
+      user_id:       u?.id ?? 'неизвестно',
+      user_username: u?.username ?? 'нет',
+      user_name:     [u?.first_name, u?.last_name].filter(Boolean).join(' ') || 'нет'
     };
 
-    console.log('Отправка заявки...', payload);
+    console.log('[send payload]', payload);
 
-    const btn = document.querySelector('.btn-yellow');
-    const originalText = btn.textContent;
+    const t = btn.textContent;
     btn.disabled = true;
     btn.textContent = 'Отправляем...';
 
     try {
       const res = await fetch('/api/send', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type':'application/json'},
         body: JSON.stringify(payload)
       });
-
       const json = await res.json().catch(() => ({}));
       if (!res.ok || !json.success) {
         throw new Error(json?.error || 'Не удалось отправить заявку');
       }
-
       window.location.href = 'success.html';
     } catch (e) {
       alert('Ошибка отправки: ' + e.message);
       console.error('[send] error:', e);
     } finally {
       btn.disabled = false;
-      btn.textContent = originalText;
+      btn.textContent = t;
     }
   });
 });
+
 
 
 
