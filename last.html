@@ -4,14 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Подтверждение</title>
+
+  <!-- Базовые стили -->
   <link rel="stylesheet" href="style.css" />
+  <!-- Стили страницы подтверждения -->
   <link rel="stylesheet" href="confirm.css" />
+
   <script defer src="last.js"></script>
 </head>
 <body>
-  <div class="container" id="lastPage">
+  <div class="container" id="confirmPage">
 
-    <!-- Шаги -->
+    <!-- Шкала прогресса -->
     <div class="steps">
       <div class="circle done"></div>
       <div class="line"></div>
@@ -22,29 +26,35 @@
 
     <h1 class="page-title">Подтверждение</h1>
 
-    <!-- Суммы -->
+    <!-- Блок обмена -->
     <div class="cf-exchange">
       <div class="cf-side">
-        <div class="cf-label">Отдаёте RUB</div>
+        <div class="cf-label">Отдаете RUB</div>
         <div class="cf-value" id="rubAmount">—</div>
       </div>
-      <div class="cf-arrow"><img src="images/arrow.png" alt="→"></div>
+
+      <div class="cf-arrow">
+        <img src="images/arrow.png" alt="→">
+      </div>
+
       <div class="cf-side">
         <div class="cf-label">Получаете CZK</div>
         <div class="cf-value" id="czkAmount">—</div>
       </div>
     </div>
 
-    <!-- Данные -->
+    <!-- Информация -->
     <div class="cf-list">
       <div class="cf-item">
-        <div class="cf-item-label">Ваш номер счёта</div>
+        <div class="cf-item-label">Ваш номер счета</div>
         <div class="cf-item-value" id="acc">—</div>
       </div>
+
       <div class="cf-item">
         <div class="cf-item-label">Время</div>
         <div class="cf-item-value" id="time">—</div>
       </div>
+
       <div class="cf-row">
         <div class="cf-item">
           <div class="cf-item-label">Курс</div>
@@ -62,8 +72,8 @@
     <div class="exchange-button">
       <button class="btn-yellow">Создать заявку</button>
     </div>
-
   </div>
 </body>
 </html>
+
 
