@@ -56,6 +56,25 @@ document.addEventListener('DOMContentLoaded', () => {
   setText('acc',       accOut);     // "Ваш номер счета"
   setText('time',      timeOut);    // "Время"
 
+  // Делаем «последнее слово» за нами
+requestAnimationFrame(() => {
+  const flow   = localStorage.getItem('flow');
+  const method = localStorage.getItem('method');
+  const isCash = flow === 'cash' || method === 'Наличные';
+  const accOut  = isCash ? '-' : (localStorage.getItem('account') || '');
+  const timeOut = isCash ? (localStorage.getItem('time') || '—')
+                         : (localStorage.getItem('time') || 'до 1 часа');
+
+  const timeLabel = document.getElementById('time')?.previousElementSibling;
+  if (timeLabel) timeLabel.textContent = 'Время';
+
+  const accEl = document.getElementById('acc');
+  const timeEl = document.getElementById('time');
+  if (accEl)  accEl.textContent  = accOut;
+  if (timeEl) timeEl.textContent = timeOut;
+});
+
+
   // Кнопка отправки — твоя логика
   document.querySelector('.btn-yellow')?.addEventListener('click', async () => {
     // …/api/send…
