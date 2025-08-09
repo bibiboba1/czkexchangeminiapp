@@ -1,3 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Обмен RUB → CZK</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">Рассчитать</h1>
+
+    <div class="card input-section">
+      <div class="input-group">
+        <label>Вы отдаете</label>
+        <div class="input-wrapper">
+          <input id="inputAmount" type="number" inputmode="numeric" placeholder="0" />
+          <img src="images/rubchip.png" alt="RUB" class="chip">
+        </div>
+      </div>
+
+      <div class="switch-icon">
+        <img src="images/switch.png" alt="switch" />
+      </div>
+
+      <div class="input-group">
+        <label>Вы получаете</label>
+        <div class="input-wrapper">
+          <input id="outputAmount" type="text" placeholder="0" readonly />
+          <img src="images/czkchip.png" alt="CZK" class="chip">
+        </div>
+      </div>
+    </div>
+
+    <p class="note">Курс фиксируется максимум на один час</p>
+
+    <h2 class="rates-title">Курс</h2>
+    <div class="rates">
+      <!-- < 20 000 -->
+      <div class="rate-row">
         <div class="left">
           <img class="flag" src="images/czk_flag_round.png" alt="CZK" />
           <div class="currency-info">
@@ -42,6 +83,8 @@
   </div>
 </body>
 </html>
+
+
 
 
 
