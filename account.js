@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('time', time);
 
     // Переход с параметром, чтобы избежать кеша
-    window.location.href = `confirm.html?nocache=${Date.now()}`;
+    window.location.href = `last.html?nocache=${Date.now()}`;
   });
 
   // Скрыть клавиатуру при клике вне input
