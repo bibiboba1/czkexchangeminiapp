@@ -1,5 +1,6 @@
-// /api/send.js — Vercel serverless function
+// /api/send.js — Vercel serverless function (Node 18+)
 
+// Безопасное экранирование HTML
 function esc(s = '') {
   return String(s)
     .replaceAll('&', '&amp;')
@@ -22,36 +23,31 @@ export default async function handler(req, res) {
       account = flow === 'cash' ? '-' : '-',
       name = '-',
       comment = '-',
-      time = flow === 'cash' ? '—' : 'До 24 часов',
-      user = {}
+      time = flow === 'cash' ? '—' : 'до 24 часов',
+      user_id = 'неизвестно',
+      user_username = 'нет',
+      user_name = 'нет'
     } = req.body || {};
 
-    const userId    = user?.id ? String(user.id) : '';
-    const username  = user?.username ? `@${user.username}` : '';
-    const fullName  = [user?.first_name, user?.last_name].filter(Boolean).join(' ');
+    // Текст для Telegram
+    const text =
+      `<b>Заявка</b>\n` +
+      `Способ: <b>${esc(method)}</b>\n` +
+      `Сумма RUB: <b>${esc(rub)}</b>\n` +
+      `Сумма CZK: <b>${esc(czk)}</b>\n` +
+      `Курс: <b>${esc(rate)}</b>\n` +
+      `Счёт: <b>${esc(account)}</b>\n` +
+      `Имя: <b>${esc(name)}</b>\n` +
+      `Комментарий: <b>${esc(comment)}</b>\n` +
+      `Время: <b>${esc(time)}</b>\n\n` +
+      `<b>Пользователь Mini App:</b>\n` +
+      `id: <b>${esc(user_id)}</b>\n` +
+      `username: ${user_username !== 'нет' ? '@' + esc(user_username) : 'нет'}\n` +
+      `name: <b>${esc(user_name)}</b>`;
 
-    // Собираем текст для канала
-    const lines = [
-      `<b>Заявка</b>`,
-      `Способ: <b>${esc(method)}</b>`,
-      `Сумма RUB: <b>${esc(rub)}</b>`,
-      `Сумма CZK: <b>${esc(czk)}</b>`,
-      `Курс: <b>${esc(rate)}</b>`,
-      `Счёт: <b>${esc(account)}</b>`,
-      `Имя (формы): <b>${esc(name)}</b>`,
-      `Комментарий: <b>${esc(comment)}</b>`,
-      `Время: <b>${esc(time)}</b>`,
-      `—`,
-      `<i>Пользователь Mini App:</i>`,
-      userId    ? `id: <code>${esc(userId)}</code>` : `id: <i>неизвестно</i>`,
-      username  ? `username: <b>${esc(username)}</b>` : `username: <i>нет</i>`,
-      fullName  ? `name: <b>${esc(fullName)}</b>` : `name: <i>нет</i>`
-    ];
-
-    const text = lines.join('\n');
-
-    const token  = process.env.TELEGRAM_BOT_TOKEN;
+    const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
+
     if (!token || !chatId) {
       return res.status(500).json({
         success: false,
@@ -59,9 +55,10 @@ export default async function handler(req, res) {
       });
     }
 
+    // Отправка в Telegram
     const tgResp = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: chatId,
         text,
@@ -82,6 +79,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 }
+
 
 
 
