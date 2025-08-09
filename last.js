@@ -51,6 +51,69 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
 });
+// last.js — отправка заявки в Telegram через серверный /api/send
+
+function formatNumber(n) {
+  const num = Number(n);
+  return Number.isFinite(num) ? num.toLocaleString('ru-RU') : '0';
+}
+
+function getLS(key, fallback = '-') {
+  const v = localStorage.getItem(key);
+  return (v === null || v === '') ? fallback : v;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (!document.getElementById('confirmPage')) return;
+
+  // Кнопка «Создать заявку»
+  const btn = document.querySelector('.btn-yellow');
+  btn?.addEventListener('click', async () => {
+    // Собираем данные
+    const flow   = getLS('flow', 'account');             // 'account' | 'cash'
+    const rub    = getLS('rub', '0');
+    const czk    = getLS('czk', '0');
+    const rate   = getLS('rate', '-');
+    const method = (flow === 'cash') ? 'Наличные' : 'На счёт';
+    const account= (flow === 'cash') ? '-' : getLS('account', '-');
+    const name   = getLS('name', '-');
+    const comment= getLS('comment', '-');
+    const time   = (flow === 'cash')
+      ? getLS('time', '—')
+      : getLS('time', 'до 1 часа');
+
+    const payload = {
+      flow, method, rub, czk, rate, account, name, comment, time
+    };
+
+    // UI: блокируем кнопку на время отправки
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Отправляем...';
+
+    try {
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.success) {
+        throw new Error(json?.error || 'Не удалось отправить заявку');
+      }
+
+      // Успех → на страницу «успешно»
+      window.location.href = 'success.html';
+    } catch (e) {
+      alert('Ошибка отправки: ' + e.message);
+      console.error('[send] error:', e);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  });
+});
 
 
 
