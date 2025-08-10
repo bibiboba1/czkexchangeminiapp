@@ -9,10 +9,10 @@ html,body{height:100%}
 body{
   margin:0; background:#fff; color:var(--text);
   font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-  display:flex; justify-content:center;
+  display:flex; flex-direction:column;
 }
 
-.wrap{ width:min(760px,100%); padding:20px 18px 40px; margin:0 auto; }
+.wrap{ width:min(760px,100%); padding:20px 18px 0; margin:0 auto; }
 
 .page-title{
   text-align:center; margin:10px 0 6px;
@@ -54,16 +54,9 @@ body{
   display:flex; align-items:flex-end; justify-content:space-between;
 }
 
-/* Левая часть */
 .who{ display:flex; flex-direction:column; gap:6px; }
-.phone-row{
-  display:flex; align-items:center; gap:8px;
-  font-size:18px; font-weight:800; color:#111;
-}
-.copy-inline{
-  width:30px; height:30px; border-radius:8px; background:#f3f3f3; border:0; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-}
+.phone-row{ display:flex; align-items:center; gap:8px; font-size:18px; font-weight:800; color:#111; }
+.copy-inline{ width:30px; height:30px; border-radius:8px; background:#f3f3f3; border:0; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .copy-inline img{ width:18px; height:18px; opacity:.9 }
 
 .name{ font-size:18px; font-weight:800; color:#111; }
@@ -72,21 +65,32 @@ body{
 
 /* Сумма */
 .amount-line{ margin:10px 2px 8px; }
-.amount{
-  font-size:28px; font-weight:800; color:#111; margin:10px 0 8px;
-}
+.amount{ font-size:28px; font-weight:800; color:#111; margin:10px 0 8px; }
 .amount::after{ content:" ₽"; }
 .divider{ height:1px; background:#e6e6e6; width:100%; }
 
-/* Кнопка */
-.btn{
+/* Нижняя панель (таймер + кнопка) */
+.bottom-bar{
+  position:fixed; left:0; right:0; bottom:0;
+  background:#fff;
+  box-shadow:0 -6px 20px rgba(0,0,0,.04);
+  padding:10px 18px calc(12px + env(safe-area-inset-bottom));
+}
+.bottom-bar .timer{
+  text-align:center; color:var(--muted); font-size:14px; margin-bottom:8px;
+}
+.bottom-btn{
   display:block; width:100%; border:0; cursor:pointer;
   background:var(--yellow); color:#000; font-weight:800; font-size:22px;
-  padding:16px 18px; border-radius:24px; margin-top:22px;
+  padding:16px 18px; border-radius:24px;
 }
-.btn:active{ transform:translateY(1px) }
+.bottom-btn:active{ transform:translateY(1px) }
 
-@media (min-width:860px){
-  .page-title{ font-size:42px }
+/* Чтобы нижняя панель не перекрывала контент */
+.bottom-spacer{ height:110px; }
+
+/* Состояние, когда время вышло */
+.bottom-btn.disabled{
+  opacity:.6; cursor:not-allowed;
 }
 
