@@ -10,7 +10,6 @@ function esc(s = '') {
 
 // --- Проверка и парсинг initData от Telegram ---
 function verifyInitData(initData, botToken) {
-  if (!initData) throw new Error('initData is empty (Mini App не передал данные)');
 
   const params = new URLSearchParams(initData);
   const receivedHash = params.get('hash');
@@ -75,14 +74,15 @@ export default async function handler(req, res) {
 
     // --- 1) Пытаемся достать реального пользователя из initData ---
     let tmaUser = null;
-    if (initData) {
-      try {
-        const verified = verifyInitData(initData, token);
-        tmaUser = verified.user || null;
-      } catch (err) {
-        console.warn('[send] initData verify failed:', err.message);
-      }
-    }
+if (initData) {
+  try {
+    const verified = verifyInitData(initData, token);
+    tmaUser = verified.user || null;
+  } catch (err) {
+    console.warn('[send] initData verify failed:', err.message);
+  }
+}
+
 
     // --- 2) Формируем итоговые данные пользователя ---
     const finalId = String(tmaUser?.id || user_id || url_uid || '') || 'неизвестно';
