@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const message =
 `Здравствуйте, я оставил заявку в приложении ⬇️
 
-<b>Заявка:</b> ${flow === 'cash' ? 'Наличные' : 'На счет'}
-<b>Сумма RUB:</b> ${rub}
-<b>Сумма CZK:</b> ${czk}
-<b>Курс:</b> ${rate}
-<b>Счет:</b> ${account}
-<b>Имя:</b> ${name}
-<b>Комментарий:</b> ${comment}`;
+*Заявка:* ${flow === 'cash' ? 'Наличные' : 'На счет'}
+*Сумма RUB:* ${rub}
+*Сумма CZK:* ${czk}
+*Курс:* ${rate}
+*Счет:* ${account}
+*Имя:* ${name}
+*Комментарий:* ${comment}`;
 
     const encodedMessage = encodeURIComponent(message);
 
