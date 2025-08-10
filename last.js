@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
       initData: tg?.initData || ""
 
     };
-    const tg = window.Telegram?.WebApp;
 
     const res = await fetch('/api/send', {
       method: 'POST',
