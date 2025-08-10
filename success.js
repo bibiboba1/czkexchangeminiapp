@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const account  = flow === 'cash' ? '-' : (localStorage.getItem('account') || '-');
     const name     = localStorage.getItem('name') || '-';
     const comment  = localStorage.getItem('comment') || '-';
-    const time     = localStorage.getItem('time') || '-';
+    const time    = localStorage.getItem('time') || '-';
 
     // Формируем текст для чата
     const message =
-`Здравствуйте!\n Я оставил заявку на обмен! ⬇️\n
+`Здравствуйте!\nЯ оставил заявку на обмен!⬇️\n
 Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
-RUB: ${rub}
-CZK: ${czk}
+Сумма RUB: ${rub}
+Сумма CZK: ${czk}
 Курс: ${rate}
 Счет: ${account}
 Время: ${time}`;
