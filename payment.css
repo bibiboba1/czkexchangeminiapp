@@ -12,10 +12,9 @@ body{
   display:flex; flex-direction:column;
 }
 
-/* больше верхний отступ, чтобы карточка ушла чуть ниже (к центру) */
 .wrap{
   width:min(760px,100%);
-  padding:34px 18px 0;      /* было 20px 18px 0 */
+  padding:34px 18px 0; /* подняли контент чуть вниз от верха */
   margin:0 auto;
 }
 
@@ -24,7 +23,7 @@ body{
   font-weight:800; font-size:34px; line-height:1.15;
 }
 .subtitle{
-  text-align:center; color:#8a8a8a; margin:0 0 22px; font-size:15px; /* чуть больше отступ */
+  text-align:center; color:#8a8a8a; margin:0 0 22px; font-size:15px;
 }
 
 /* Жёлтая карта */
@@ -32,9 +31,8 @@ body{
   background:var(--yellow);
   border-radius:28px;
   padding:16px;
-  /* убрал тень чтобы не казалось, что есть полоса над низом */
-  box-shadow:none;
-  margin:18px 0 24px;  /* опустил немного ниже */
+  box-shadow:none; /* убрали тень */
+  margin:18px 0 24px;
 }
 
 .number-box{
@@ -48,17 +46,16 @@ body{
   font-size:18px;
 }
 
-/* Кнопка копирования БЕЗ заднего фона */
+/* Кнопка копирования без фона */
 .number-box .copy{
   position:absolute; right:8px; top:50%; transform:translateY(-50%);
   width:36px; height:36px; border:0; border-radius:0;
-  background:transparent;                 /* <-- фон убран */
+  background:transparent;
   display:flex; align-items:center; justify-content:center;
   cursor:pointer;
 }
 .number-box .copy img{ width:22px; height:22px; display:block; opacity:.9 }
 
-/* Низ карточки */
 .card-bottom{
   margin-top:14px;
   display:flex; align-items:flex-end; justify-content:space-between;
@@ -72,13 +69,13 @@ body{
   font-size:18px; font-weight:800; color:#111;
 }
 .copy-inline{
-  width:30px; height:30px; border-radius:0; background:transparent; border:0; /* фон убран */
+  width:30px; height:30px; border-radius:0; background:transparent; border:0;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
 }
 .copy-inline img{ width:18px; height:18px; opacity:.9 }
 
 .name{ font-size:18px; font-weight:800; color:#111; }
-.bank{ font-size:14px; color:#3a3a3a; }
+.bank{ font-size:14px; color:#3a3a3a; font-weight:700; } /* теперь жирный */
 .mir{ width:64px; height:auto; border-radius:12px; }
 
 /* Сумма */
@@ -87,24 +84,23 @@ body{
 .amount::after{ content:" ₽"; }
 .divider{ height:1px; background:#e6e6e6; width:100%; }
 
-/* Нижняя панель (таймер + кнопка) */
+/* Нижняя панель (таймер + кнопка) — подняли выше */
 .bottom-bar{
   position:fixed; left:0; right:0;
-  /* поднимаем панель выше низа, и убираем тень/разделители */
-  bottom: calc(env(safe-area-inset-bottom) + 14px); /* было 0 */
-  background:transparent;         /* чистый фон, чтобы не было белой полосы */
+  bottom: calc(env(safe-area-inset-bottom) + 40px); /* было 14px */
+  background:transparent;
   box-shadow:none; border-top:0;
   padding:0 18px;
-  pointer-events:none;            /* чтобы клики проходили только по кнопке */
+  pointer-events:none;
 }
-.bottom-bar > *{ pointer-events:auto; } /* вернуть клики детям */
+.bottom-bar > *{ pointer-events:auto; }
 
 .bottom-bar .timer{
   text-align:center; color:#6b7280; font-size:14px; margin:0 0 8px;
 }
 
 .bottom-btn{
-  display:block; width:min(760px, calc(100% - 36px)); /* визуально центрируем */
+  display:block; width:min(760px, calc(100% - 36px));
   margin:0 auto;
   border:0; cursor:pointer;
   background:var(--yellow); color:#000; font-weight:800; font-size:22px;
@@ -112,13 +108,10 @@ body{
 }
 .bottom-btn:active{ transform:translateY(1px) }
 
-/* Чтобы нижняя панель не перекрывала контент — делаем отступ снизу.
-   Чуть больше, т.к. панель теперь поднята. */
 .bottom-spacer{ height:140px; }
-
-/* Состояние, когда время вышло */
 .bottom-btn.disabled{ opacity:.6; cursor:not-allowed; }
 
 @media (min-width:860px){
   .page-title{ font-size:42px }
 }
+
