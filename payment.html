@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Оплата</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="payment.css" />
+  <script defer src="payment.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">Реквизиты<br/>для перевода</div>
+    <div class="subtitle">Проведите платеж в течение 30 мин!</div>
+
+    <div class="stack">
+      <div class="field">
+        <div class="label">Банк получателя</div>
+        <div class="value-row">
+          <div class="value" id="bank">—</div>
+          <button class="copy" onclick="copyText(document.getElementById('bank').textContent)">
+            📋
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label">Номер СБП</div>
+        <div class="value-row">
+          <div class="value" id="number">—</div>
+          <button class="copy" onclick="copyText(document.getElementById('number').textContent)">
+            📋
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label">Получатель</div>
+        <div class="value-row">
+          <div class="value" id="recipient">—</div>
+          <button class="copy" onclick="copyText(document.getElementById('recipient').textContent)">
+            📋
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label">Сумма</div>
+        <div class="value-row">
+          <div class="value" id="amount">—</div>
+          <button class="copy" onclick="copyText(document.getElementById('amount').textContent)">
+            📋
+          </button>
+        </div>
+      </div>
+
+      <button class="btn" id="paidBtn">Оплачено</button>
+    </div>
+  </div>
+</body>
+</html>
