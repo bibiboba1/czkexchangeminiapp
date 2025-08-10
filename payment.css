@@ -35,7 +35,7 @@ body{
   position:relative;
   background:#fff;
   border-radius:18px;
-  padding:14px 48px 14px 16px; /* место под кнопку копирования справа */
+  padding:14px 48px 14px 16px;
   min-height:44px;
   display:flex; align-items:center;
   font-weight:800; color:#111; letter-spacing:.2px;
@@ -53,8 +53,21 @@ body{
   margin-top:14px;
   display:flex; align-items:flex-end; justify-content:space-between;
 }
+
+/* Левая часть */
+.who{ display:flex; flex-direction:column; gap:6px; }
+.phone-row{
+  display:flex; align-items:center; gap:8px;
+  font-size:18px; font-weight:800; color:#111;
+}
+.copy-inline{
+  width:30px; height:30px; border-radius:8px; background:#f3f3f3; border:0; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+.copy-inline img{ width:18px; height:18px; opacity:.9 }
+
 .name{ font-size:18px; font-weight:800; color:#111; }
-.bank{ font-size:14px; color:#3a3a3a; margin-top:2px; }
+.bank{ font-size:14px; color:#3a3a3a; }
 .mir{ width:64px; height:auto; border-radius:12px; }
 
 /* Сумма */
@@ -62,7 +75,6 @@ body{
 .amount{
   font-size:28px; font-weight:800; color:#111; margin:10px 0 8px;
 }
-/* Добавим знак ₽ автоматически, т.к. твой JS его не ставит */
 .amount::after{ content:" ₽"; }
 .divider{ height:1px; background:#e6e6e6; width:100%; }
 
@@ -77,3 +89,4 @@ body{
 @media (min-width:860px){
   .page-title{ font-size:42px }
 }
+
