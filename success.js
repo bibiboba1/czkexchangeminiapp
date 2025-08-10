@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('openChatBtn')?.addEventListener('click', () => {
+document.getElementById('openChatBtn')?.addEventListener('click', () => {
     // Достаём данные
     const flow    = localStorage.getItem('flow') || '-';
     const rub     = localStorage.getItem('rub') || '-';
@@ -10,21 +9,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const comment = localStorage.getItem('comment') || '-';
     const time    = localStorage.getItem('time') || '-';
 
-    const message =
-`Здравствуйте!
-Я оставил заявку на обмен ⬇️
+    let message = "Я совершил перевод, отправляю чек!\n";
 
-Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
+    if (flow === 'cash') {
+      // Наличные — без комментария, с временем
+      message +=
+Заявка: Наличные
+Сумма RUB: ${rub}
+Сумма CZK: ${czk}
+Курс: ${rate}
+Время: ${time}
+Имя: ${name};
+    } else {
+      // На счёт — с комментарием
+      message +=
+Заявка: На счет
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
 Курс: ${rate}
 Счет: ${account}
-Время: ${time}`;
+Имя: ${name}
+Комментарий: ${comment};
+    }
 
     const encodedMessage = encodeURIComponent(message);
 
     // Переход сразу в чат с готовым текстом
-    const chatUrl = `https://t.me/big_whipper?text=${encodedMessage}`;
+    const chatUrl = https://t.me/big_whipper?text=${encodedMessage};
     window.open(chatUrl, '_blank');
   });
 });
