@@ -1,37 +1,96 @@
 // /api/send.js — Vercel serverless function
-function esc(s=''){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+import crypto from 'crypto';
 
-export default async function handler(req, res){
-  if (req.method !== 'POST'){
-    return res.status(405).json({ success:false, error:'Method Not Allowed' });
+function esc(s = '') {
+  return String(s)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+// --- Проверка и парсинг initData от Telegram ---
+function verifyInitData(initData, botToken) {
+  if (!initData) throw new Error('initData is empty (Mini App не передал данные)');
+
+  const params = new URLSearchParams(initData);
+  const receivedHash = params.get('hash');
+  if (!receivedHash) throw new Error('no hash in initData');
+
+  params.delete('hash');
+
+  const dataCheckString = Array.from(params.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([k, v]) => `${k}=${v}`)
+    .join('\n');
+
+  const secret = crypto.createHmac('sha256', 'WebAppData')
+    .update(botToken)
+    .digest();
+
+  const calcHash = crypto.createHmac('sha256', secret)
+    .update(dataCheckString)
+    .digest('hex');
+
+  if (calcHash !== receivedHash) throw new Error('Bad initData hash');
+
+  const out = {};
+  for (const [k, v] of params.entries()) {
+    if (k === 'user') {
+      try { out.user = JSON.parse(v); } catch { out.user = null; }
+    } else {
+      out[k] = v;
+    }
+  }
+  return out; // вернёт { user, auth_date, query_id, ... }
+}
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ success: false, error: 'Method Not Allowed' });
   }
   try {
     const {
-      flow='account',
+      flow = 'account',
       method = flow === 'cash' ? 'Наличные' : 'На счёт',
-      rub='0', czk='0', rate='-',
+      rub = '0', czk = '0', rate = '-',
       account = flow === 'cash' ? '-' : '-',
-      name='-', comment='-',
+      name = '-', comment = '-',
       time = flow === 'cash' ? '—' : 'До 24 часов',
 
       // из WebApp (если доступно)
-      user_id='', user_username='', user_name='',
+      user_id = '', user_username = '', user_name = '',
 
-      // из URL / локального кэша (бот передал при открытии мини-аппа)
-      phone='', url_uid='', url_uname='', url_name=''
+      // из URL / локального кэша
+      phone = '', url_uid = '', url_uname = '', url_name = '',
+
+      // initData из Telegram WebApp
+      initData = ''
     } = req.body || {};
 
-    const token  = process.env.TELEGRAM_BOT_TOKEN;
+    const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
-    if (!token || !chatId){
-      return res.status(500).json({ success:false, error:'Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID' });
+    if (!token || !chatId) {
+      return res.status(500).json({ success: false, error: 'Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID' });
     }
 
-    // финальные данные пользователя: приоритет WebApp, потом URL
-    const finalId   = String(user_id || url_uid || '');
-    const finalUser = (user_username || url_uname || '').replace(/^@/, '');
-    const finalName = user_name || url_name || '';
-    const phoneOut  = phone || 'не указан';
+    // --- 1) Пытаемся достать реального пользователя из initData ---
+    let tmaUser = null;
+    if (initData) {
+      try {
+        const verified = verifyInitData(initData, token);
+        tmaUser = verified.user || null;
+      } catch (err) {
+        console.warn('[send] initData verify failed:', err.message);
+      }
+    }
+
+    // --- 2) Формируем итоговые данные пользователя ---
+    const finalId = String(tmaUser?.id || user_id || url_uid || '') || 'неизвестно';
+    const finalUser = (tmaUser?.username || user_username || url_uname || '').replace(/^@/, '');
+    const finalName = tmaUser
+      ? [tmaUser.first_name, tmaUser.last_name].filter(Boolean).join(' ')
+      : (user_name || url_name || '');
+    const phoneOut = phone || 'не указан';
 
     const usernameLine = finalUser
       ? `username: <a href="https://t.me/${esc(finalUser)}">@${esc(finalUser)}</a>`
@@ -54,21 +113,28 @@ export default async function handler(req, res){
       `name: <b>${esc(finalName || 'нет')}</b>\n` +
       `phone: <b>${esc(phoneOut)}</b>`;
 
+    // --- 3) Отправка в Telegram канал ---
     const tgResp = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode:'HTML', disable_web_page_preview:true })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: 'HTML',
+        disable_web_page_preview: true
+      })
     });
     const tgJson = await tgResp.json();
-    if (!tgJson.ok){
-      return res.status(502).json({ success:false, error: tgJson.description || 'Telegram error' });
+    if (!tgJson.ok) {
+      return res.status(502).json({ success: false, error: tgJson.description || 'Telegram error' });
     }
-    return res.status(200).json({ success:true });
-  } catch (e){
+    return res.status(200).json({ success: true });
+  } catch (e) {
     console.error('[api/send] error', e);
-    return res.status(500).json({ success:false, error:'Internal Server Error' });
+    return res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 }
+
 
 
 
