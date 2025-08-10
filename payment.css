@@ -87,7 +87,7 @@ body{
 /* Нижняя панель (таймер + кнопка) — подняли выше */
 .bottom-bar{
   position:fixed; left:0; right:0;
-  bottom: calc(env(safe-area-inset-bottom) + 40px); /* было 14px */
+  bottom: calc(env(safe-area-inset-bottom) + 80px); /* было 14px */
   background:transparent;
   box-shadow:none; border-top:0;
   padding:0 18px;
