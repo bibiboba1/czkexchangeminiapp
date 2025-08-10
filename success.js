@@ -8,18 +8,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const account  = flow === 'cash' ? '-' : (localStorage.getItem('account') || '-');
     const name     = localStorage.getItem('name') || '-';
     const comment  = localStorage.getItem('comment') || '-';
-    const time    = localStorage.getItem('time') || '-';
+    const time     = localStorage.getItem('time') || '-';
 
     // Формируем текст для чата
     const message =
-'Здравствуйте!\nЯ оставил заявку на обмен ⬇️\n\n';
+`Я совершил перевод, отправляю чек!
+
 Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
 Курс: ${rate}
 Счет: ${account}
-Время: ${time}`;    
-
+Время: ${time}`;
 
     // Кодируем для ссылки
     const encodedMessage = encodeURIComponent(message);
@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.open(chatUrl, '_blank');
   });
 });
+
+
 
 
 
