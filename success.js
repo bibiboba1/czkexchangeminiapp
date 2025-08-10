@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const comment = localStorage.getItem('comment') || '-';
     const time    = localStorage.getItem('time') || '-';
 
-    let message = "Я совершил перевод, отправляю чек!\n";
+    let message = "Здравствуйте!\nЯ оставил заявку на обмен ⬇️\n\n";
 
     if (flow === 'cash') {
       // Наличные — без комментария, с временем
-      message +=
+      message += 
 `Заявка: Наличные
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 Имя: ${name}`;
     } else {
       // На счёт — с комментарием
-      message +=
+      message += 
 `Заявка: На счет
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
