@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('openChat')?.addEventListener('click', () => {
-    // Готовое сообщение для пользователя
+  document.getElementById('openChatBtn')?.addEventListener('click', () => {
+    // Готовое сообщение
     const message = 'Я совершил перевод, отправляю чек!';
 
     // Кодируем для URL
@@ -13,5 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.open(chatUrl, '_blank');
   });
 });
+
 
 
