@@ -4,20 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Реквизиты для перевода</title>
-
   <link rel="stylesheet" href="payment.css" />
-  <script defer src="payment.js?v=3"></script>
+  <script defer src="payment.js"></script>
 </head>
 <body>
   <div class="wrap" id="paymentPage">
     <h1 class="page-title">Реквизиты<br/>для перевода</h1>
     <p class="subtitle">Проведите платеж в течение 30 мин!</p>
 
-    <!-- Жёлтая карта -->
     <div class="card">
       <div class="number-box">
         <span id="cardNumber">—</span>
-        <button class="copy" data-copy-target="cardNumber" aria-label="Скопировать номер">
+        <button class="copy" type="button" data-copy-target="cardNumber">
           <img src="images/copy.png" alt="copy"/>
         </button>
       </div>
@@ -31,17 +29,12 @@
       </div>
     </div>
 
-    <!-- Сумма -->
     <div class="amount-line">
       <div class="amount" id="payAmount">— ₽</div>
       <div class="divider"></div>
     </div>
 
-    <button class="btn" id="paidBtn">Готово</button>
+    <button class="btn" id="paidBtn" type="button">Оплачено</button>
   </div>
 </body>
 </html>
-
-
-
-
