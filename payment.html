@@ -6,7 +6,7 @@
   <title>Реквизиты для перевода</title>
 
   <link rel="stylesheet" href="payment.css" />
-  <script defer src="payment.js"></script>
+  <script defer src="payment.js?v=3"></script>
 </head>
 <body>
   <div class="wrap" id="paymentPage">
@@ -16,16 +16,16 @@
     <!-- Жёлтая карта -->
     <div class="card">
       <div class="number-box">
-        <span id="number">—</span>
-        <button class="copy" data-copy-target="number" aria-label="Скопировать номер">
+        <span id="cardNumber">—</span>
+        <button class="copy" data-copy-target="cardNumber" aria-label="Скопировать номер">
           <img src="images/copy.png" alt="copy"/>
         </button>
       </div>
 
       <div class="card-bottom">
         <div class="who">
-          <div class="name" id="shortName">—</div>
-          <div class="bank" id="bank">—</div>
+          <div class="name" id="cardHolderShort">—</div>
+          <div class="bank" id="bankName">—</div>
         </div>
         <img class="mir" src="images/mir.png" alt="MIR">
       </div>
@@ -33,7 +33,7 @@
 
     <!-- Сумма -->
     <div class="amount-line">
-      <div class="amount" id="amount">— ₽</div>
+      <div class="amount" id="payAmount">— ₽</div>
       <div class="divider"></div>
     </div>
 
@@ -41,6 +41,7 @@
   </div>
 </body>
 </html>
+
 
 
 
