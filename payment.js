@@ -7,7 +7,7 @@ const REQUISITES = [
   { bank: "Сбербанк", number: "+7 952 51 55 329", recipient: "Владимир П, max_amount: 50000 },
    { bank: "Альфа-Банк", number: "+7 951 797 44 88", recipient: "Дмитрий М", max_amount: 100000 },
    { bank: "ВТБ банк", number: "+7 932 551 99 88", recipient: "Всеволод Х", max_amount: 200000 },
-   { bank: "Райфайзен банк", number: "2200 7001 1234 4321", recipient: "Валентина М", max_amount: 500000 },
+   { bank: "Райфайзен банк", number: "2200 7001 1234 4321", recipient: "Валентина М", max_amount: 500000 }
 ];
 
 function formatAmount(val){
