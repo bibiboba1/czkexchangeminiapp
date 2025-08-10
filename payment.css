@@ -14,68 +14,36 @@ body{
 }
 
 .wrap{ width:min(760px,100%); padding:20px 18px 40px; margin:0 auto; }
-
-.page-title{
-  text-align:center; margin:10px 0 6px;
-  font-weight:800; font-size:34px; line-height:1.15;
-}
-.subtitle{
-  text-align:center; color:#8a8a8a; margin:0 0 18px; font-size:15px;
-}
+.page-title{ text-align:center; margin:10px 0 6px; font-weight:800; font-size:34px; line-height:1.15; }
+.subtitle{ text-align:center; color:#8a8a8a; margin:0 0 18px; font-size:15px; }
 
 /* Жёлтая карта */
-.card{
-  background:var(--yellow);
-  border-radius:28px;
-  padding:16px;
-  box-shadow:0 8px 22px rgba(255,214,0,.25);
-  margin:12px 0 22px;
-}
-
+.card{ background:var(--yellow); border-radius:28px; padding:16px; box-shadow:0 8px 22px rgba(255,214,0,.25); margin:12px 0 22px; }
 .number-box{
-  position:relative;
-  background:#fff;
-  border-radius:18px;
-  padding:14px 48px 14px 16px;
-  min-height:44px;
-  display:flex; align-items:center;
-  font-weight:800; color:#111; letter-spacing:.2px;
+  position:relative; background:#fff; border-radius:18px; padding:14px 48px 14px 16px;
+  min-height:44px; display:flex; align-items:center; font-weight:800; color:#111; letter-spacing:.2px;
 }
 .number-box .copy{
   position:absolute; right:8px; top:50%; transform:translateY(-50%);
-  width:36px; height:36px; border:0; border-radius:10px;
-  background:#f3f3f3; display:flex; align-items:center; justify-content:center;
-  cursor:pointer;
+  width:36px; height:36px; border:0; border-radius:10px; background:#f3f3f3;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
 }
 .number-box .copy img{ width:22px; height:22px; display:block; opacity:.9 }
 
-.card-bottom{
-  margin-top:14px;
-  display:flex; align-items:flex-end; justify-content:space-between;
-}
+.card-bottom{ margin-top:14px; display:flex; align-items:flex-end; justify-content:space-between; }
 .who .name{ font-size:18px; font-weight:800; color:#111; }
 .who .bank{ font-size:14px; color:#3a3a3a; margin-top:2px; }
 .mir{ width:64px; height:auto; border-radius:12px; }
 
 /* Сумма */
 .amount-line{ margin:10px 2px 8px; }
-.amount{
-  font-size:28px; font-weight:800; color:#111; margin:10px 0 8px;
-}
-.divider{
-  height:1px; background:#e6e6e6; width:100%;
-}
+.amount{ font-size:28px; font-weight:800; color:#111; margin:10px 0 8px; }
+.divider{ height:1px; background:#e6e6e6; width:100%; }
 
 /* Кнопка */
-.btn{
-  display:block; width:100%; border:0; cursor:pointer;
-  background:var(--yellow); color:#000; font-weight:800; font-size:22px;
-  padding:16px 18px; border-radius:24px; margin-top:22px;
-}
+.btn{ display:block; width:100%; border:0; cursor:pointer; background:var(--yellow); color:#000; font-weight:800; font-size:22px; padding:16px 18px; border-radius:24px; margin-top:22px; }
 .btn:active{ transform:translateY(1px) }
 
-@media (min-width:860px){
-  .page-title{ font-size:42px }
-}
+@media (min-width:860px){ .page-title{ font-size:42px } }
 
 
