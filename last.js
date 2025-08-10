@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok || !json.success) throw new Error(json?.error || 'Не удалось отправить заявку');
-      window.location.href = 'success.html';
+      window.location.href = 'payment.html';
     } catch (e) {
       alert('Ошибка отправки: ' + e.message);
       console.error('[send] error:', e);
