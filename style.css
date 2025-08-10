@@ -363,7 +363,7 @@ body{
 
 .back-btn {
   position: fixed;
-  top: 28px;
+  top: 27px;
   left: 15px;
   z-index: 1000;
   display: inline-block;
