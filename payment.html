@@ -4,37 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Реквизиты для перевода</title>
+
   <link rel="stylesheet" href="payment.css" />
-  <script defer src="payment.js"></script>
+  <script defer src="payment.js"></script> <!-- ОСТАВЛЯЕМ твой рабочий JS -->
 </head>
 <body>
-  <div class="wrap" id="paymentPage">
+  <div class="wrap" id="paymentPage"><!-- ID НЕ МЕНЯЕМ -->
     <h1 class="page-title">Реквизиты<br/>для перевода</h1>
     <p class="subtitle">Проведите платеж в течение 30 мин!</p>
 
+    <!-- Жёлтая карта -->
     <div class="card">
+      <!-- Белая строка с номером (id="number") и копированием -->
       <div class="number-box">
-        <span id="cardNumber">—</span>
-        <button class="copy" type="button" data-copy-target="cardNumber">
+        <span id="number">—</span> <!-- ВАЖНО: старый id="number" -->
+        <button class="copy" type="button" data-copy-target="number" aria-label="Скопировать номер">
           <img src="images/copy.png" alt="copy"/>
         </button>
       </div>
 
       <div class="card-bottom">
         <div class="who">
-          <div class="name" id="cardHolderShort">—</div>
-          <div class="bank" id="bankName">—</div>
+          <div class="name" id="recipient">—</div>  <!-- ВАЖНО: id="recipient" -->
+          <div class="bank" id="bank">—</div>       <!-- ВАЖНО: id="bank" -->
         </div>
         <img class="mir" src="images/mir.png" alt="MIR">
       </div>
     </div>
 
+    <!-- Сумма (id="amount") — ₽ добавим через CSS ::after -->
     <div class="amount-line">
-      <div class="amount" id="payAmount">— ₽</div>
+      <div class="amount" id="amount">—</div>  <!-- ВАЖНО: id="amount" -->
       <div class="divider"></div>
     </div>
 
-    <button class="btn" id="paidBtn" type="button">Оплачено</button>
+    <button class="btn" id="paidBtn" type="button">Оплачено</button><!-- ВАЖНО: id="paidBtn" -->
   </div>
 </body>
 </html>
