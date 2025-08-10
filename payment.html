@@ -13,51 +13,31 @@
     <h1 class="page-title">Реквизиты<br/>для перевода</h1>
     <p class="subtitle">Проведите платеж в течение 30 мин!</p>
 
-    <div class="stack">
-      <div class="field">
-        <div class="label">Банк получателя</div>
-        <div class="value-row">
-          <div class="value" id="bank">—</div>
-          <button class="copy" data-copy-target="bank" aria-label="Скопировать банк">
-            <img src="images/copy.png" alt="copy" />
-          </button>
-        </div>
+    <!-- Жёлтая карта -->
+    <div class="card">
+      <div class="number-box">
+        <span id="number">—</span>
+        <button class="copy" data-copy-target="number" aria-label="Скопировать номер">
+          <img src="images/copy.png" alt="copy"/>
+        </button>
       </div>
 
-      <div class="field">
-        <div class="label">Номер СБП</div>
-        <div class="value-row">
-          <div class="value" id="number">—</div>
-          <button class="copy" data-copy-target="number" aria-label="Скопировать номер">
-            <img src="images/copy.png" alt="copy" />
-          </button>
+      <div class="card-bottom">
+        <div class="who">
+          <div class="name" id="shortName">—</div>
+          <div class="bank" id="bank">—</div>
         </div>
-      </div>
-
-      <div class="field">
-        <div class="label">Получатель</div>
-        <div class="value-row">
-          <div class="value" id="recipient">—</div>
-          <button class="copy" data-copy-target="recipient" aria-label="Скопировать получателя">
-            <img src="images/copy.png" alt="copy" />
-          </button>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="label">Сумма</div>
-        <div class="value-row">
-          <div class="value" id="amount">—</div>
-          <button class="copy" data-copy-target="amount" aria-label="Скопировать сумму">
-            <img src="images/copy.png" alt="copy" />
-          </button>
-        </div>
+        <img class="mir" src="images/mir.png" alt="MIR">
       </div>
     </div>
 
-    <div class="submit">
-      <button class="btn" id="paidBtn">Оплачено</button>
+    <!-- Сумма -->
+    <div class="amount-line">
+      <div class="amount" id="amount">— ₽</div>
+      <div class="divider"></div>
     </div>
+
+    <button class="btn" id="paidBtn">Оплачено</button>
   </div>
 </body>
 </html>
