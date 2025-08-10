@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('openChatBtn')?.addEventListener('click', () => {
-    // Достаём данные, которые сохранили на предыдущих страницах
     const flow     = localStorage.getItem('flow') || '-';
     const rub      = localStorage.getItem('rub') || '-';
     const czk      = localStorage.getItem('czk') || '-';
@@ -9,22 +8,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const name     = localStorage.getItem('name') || '-';
     const comment  = localStorage.getItem('comment') || '-';
 
-    // Формируем текст для чата
+    // Формируем HTML-текст с жирными заголовками
     const message =
-`Я совершил перевод, отправляю чек!
-Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
-Сумма RUB: ${rub}
-Сумма CZK: ${czk}
-Курс: ${rate}
-Счет: ${account}
-Имя: ${name}
-Комментарий: ${comment}`;
+`Здравствуйте, я оставил заявку в приложении ⬇️
 
-    // Кодируем для ссылки
+<b>Заявка:</b> ${flow === 'cash' ? 'Наличные' : 'На счет'}
+<b>Сумма RUB:</b> ${rub}
+<b>Сумма CZK:</b> ${czk}
+<b>Курс:</b> ${rate}
+<b>Счет:</b> ${account}
+<b>Имя:</b> ${name}
+<b>Комментарий:</b> ${comment}`;
+
     const encodedMessage = encodeURIComponent(message);
 
-    // Открываем чат с готовым текстом
-    const chatUrl = `https://t.me/big_whipper?text=${encodedMessage}`;
+    // Ссылка с режимом HTML
+    const chatUrl = `https://t.me/big_whipper?text=${encodedMessage}&parse_mode=HTML`;
     window.open(chatUrl, '_blank');
   });
 });
