@@ -1,42 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('openChatBtn')?.addEventListener('click', () => {
-    const flow    = localStorage.getItem('flow') || '-';      // 'cash' | 'account'
+    // Достаём данные
+    const flow    = localStorage.getItem('flow') || '-';
     const rub     = localStorage.getItem('rub') || '-';
     const czk     = localStorage.getItem('czk') || '-';
     const rate    = localStorage.getItem('rate') || '-';
     const account = localStorage.getItem('account') || '-';
-    const time    = localStorage.getItem('time') || '-';
     const name    = localStorage.getItem('name') || '-';
     const comment = localStorage.getItem('comment') || '-';
+    const time    = localStorage.getItem('time') || '-';
 
-    let message = 'Здравствуйте!\nЯ оставил заявку на обмен ⬇️\n\n';
+    let message = "Я совершил перевод, отправляю чек!\n";
 
     if (flow === 'cash') {
-      // Наличные: вместо счёта показываем время, без комментария/счёта
+      // Наличные — без комментария, с временем
       message +=
 `Заявка: Наличные
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
 Курс: ${rate}
-Время: ${time}`;
+Время: ${time}
+Имя: ${name}`;
     } else {
-      // На счёт: показываем счёт, можно добавить имя/комментарий при желании
+      // На счёт — с комментарием
       message +=
 `Заявка: На счет
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
 Курс: ${rate}
-Счет: ${account}`;
-      // Если хочешь, раскомментируй строки ниже:
-      // message += `\nИмя: ${name}`;
-      // message += `\nКомментарий: ${comment}`;
+Счет: ${account}
+Имя: ${name}
+Комментарий: ${comment}`;
     }
 
     const encodedMessage = encodeURIComponent(message);
+
+    // Переход сразу в чат с готовым текстом
     const chatUrl = `https://t.me/big_whipper?text=${encodedMessage}`;
     window.open(chatUrl, '_blank');
   });
 });
+
 
 
 
