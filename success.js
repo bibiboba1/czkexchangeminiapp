@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let message = 'Здравствуйте!\nЯ оставил заявку на обмен ⬇️\n\n';
 
     if (flow === 'cash') {
-      // Наличные: вместо счёта показываем время, без комментария/счёта
+      // Наличные: вместо счёта показываем время
       message +=
 `Заявка: Наличные
 Сумма RUB: ${rub}
@@ -20,22 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
 Курс: ${rate}
 Время: ${time}`;
     } else {
-      // На счёт: показываем счёт, можно добавить имя/комментарий при желании
+      // На счёт: показываем счёт
       message +=
 `Заявка: На счет
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
 Курс: ${rate}
-Счет: ${account}`;
-      // Если хочешь, раскомментируй строки ниже:
-      // message += `\nИмя: ${name}`;
-      // message += `\nКомментарий: ${comment}`;
+Счет: ${account}
+Имя: ${name}
+Комментарий: ${comment}`;
     }
 
     const encodedMessage = encodeURIComponent(message);
-    const chatUrl = `https://t.me/big_whipper?text=${encodedMessage}`;
+
+    // Единый рабочий вариант — через share/url
+    const chatUrl = `https://t.me/share/url?url=https://t.me/big_whipper&text=${encodedMessage}`;
     window.open(chatUrl, '_blank');
   });
 });
+
 
 
