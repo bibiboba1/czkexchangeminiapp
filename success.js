@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const comment = localStorage.getItem('comment') || '-';
     const time    = localStorage.getItem('time') || '-';
 
-    let message = "Здравствуйте, я оставил заявку на обмен!\n";
+    let message = 'Здравствуйте!\nЯ оставил заявку на обмен ⬇️\n\n';
 
     if (flow === 'cash') {
       // Наличные — без комментария, с временем
