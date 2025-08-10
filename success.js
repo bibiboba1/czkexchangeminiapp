@@ -11,14 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Формируем текст для чата
     const message =
-`Я совершил перевод, отправляю чек!
+`Здравствуйте!
+Я оставил заявку на обмен
+
 Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
 Курс: ${rate}
-Счет: ${account}
-Имя: ${name}
-Комментарий: ${comment}`;
+Счет: ${account}`;
 
     // Кодируем для ссылки
     const encodedMessage = encodeURIComponent(message);
