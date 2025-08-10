@@ -4,112 +4,76 @@
   --yellow:#FFD600;
 }
 
+*{box-sizing:border-box}
+html,body{height:100%}
 body{
-  margin:0;
-  background:#fff;
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-  display:flex;
-  justify-content:center;
+  margin:0; background:#fff; color:var(--text);
+  font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  display:flex; justify-content:center;
 }
 
-.wrap{
-  width:min(760px,100%);
-  padding:20px;
-}
+.wrap{ width:min(760px,100%); padding:20px 18px 40px; margin:0 auto; }
 
 .page-title{
-  text-align:center;
-  font-weight:800;
-  font-size:28px;
-  margin:10px 0 4px;
+  text-align:center; margin:10px 0 6px;
+  font-weight:800; font-size:34px; line-height:1.15;
 }
-
 .subtitle{
-  text-align:center;
-  color:var(--muted);
-  font-size:14px;
-  margin-bottom:18px;
+  text-align:center; color:#8a8a8a; margin:0 0 18px; font-size:15px;
 }
 
+/* Жёлтая карта */
 .card{
   background:var(--yellow);
-  border-radius:20px;
+  border-radius:28px;
   padding:16px;
-  margin-bottom:22px;
+  box-shadow:0 8px 22px rgba(255,214,0,.25);
+  margin:12px 0 22px;
 }
 
 .number-box{
   position:relative;
   background:#fff;
-  border-radius:14px;
-  padding:14px 48px 14px 16px;
-  font-weight:800;
+  border-radius:18px;
+  padding:14px 48px 14px 16px; /* место под кнопку копирования справа */
+  min-height:44px;
+  display:flex; align-items:center;
+  font-weight:800; color:#111; letter-spacing:.2px;
   font-size:18px;
 }
-
-.copy{
-  position:absolute;
-  right:8px;
-  top:50%;
-  transform:translateY(-50%);
-  background:#f3f3f3;
-  border:none;
-  border-radius:8px;
-  padding:4px;
+.number-box .copy{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  width:36px; height:36px; border:0; border-radius:10px;
+  background:#f3f3f3; display:flex; align-items:center; justify-content:center;
   cursor:pointer;
 }
-
-.copy img{
-  width:20px;
-  height:20px;
-}
+.number-box .copy img{ width:22px; height:22px; display:block; opacity:.9 }
 
 .card-bottom{
   margin-top:14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
+  display:flex; align-items:flex-end; justify-content:space-between;
 }
+.name{ font-size:18px; font-weight:800; color:#111; }
+.bank{ font-size:14px; color:#3a3a3a; margin-top:2px; }
+.mir{ width:64px; height:auto; border-radius:12px; }
 
-.name{
-  font-weight:800;
-  font-size:16px;
-}
-
-.bank{
-  font-size:14px;
-  color:#3a3a3a;
-}
-
-.mir{
-  width:60px;
-}
-
-.amount-line{
-  margin-bottom:20px;
-}
-
+/* Сумма */
+.amount-line{ margin:10px 2px 8px; }
 .amount{
-  font-weight:800;
-  font-size:22px;
-  margin-bottom:8px;
+  font-size:28px; font-weight:800; color:#111; margin:10px 0 8px;
 }
+/* Добавим знак ₽ автоматически, т.к. твой JS его не ставит */
+.amount::after{ content:" ₽"; }
+.divider{ height:1px; background:#e6e6e6; width:100%; }
 
-.divider{
-  height:1px;
-  background:#e6e6e6;
-}
-
+/* Кнопка */
 .btn{
-  display:block;
-  width:100%;
-  padding:14px;
-  background:var(--yellow);
-  font-weight:800;
-  font-size:18px;
-  border:none;
-  border-radius:20px;
-  cursor:pointer;
+  display:block; width:100%; border:0; cursor:pointer;
+  background:var(--yellow); color:#000; font-weight:800; font-size:22px;
+  padding:16px 18px; border-radius:24px; margin-top:22px;
 }
+.btn:active{ transform:translateY(1px) }
 
-
+@media (min-width:860px){
+  .page-title{ font-size:42px }
+}
