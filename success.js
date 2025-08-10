@@ -8,17 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const account  = flow === 'cash' ? '-' : (localStorage.getItem('account') || '-');
     const name     = localStorage.getItem('name') || '-';
     const comment  = localStorage.getItem('comment') || '-';
+    const time     = localStorage.getItem('time') || '-';
 
     // Формируем текст для чата
     const message =
-`Я совершил перевод, отправляю чек!
+`Здравствуйте, я оставил заявку в приложении ⬇️\n\n
 Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
 Курс: ${rate}
 Счет: ${account}
-Имя: ${name}
-Комментарий: ${comment}`;
+Время: ${time}`;
 
     // Кодируем для ссылки
     const encodedMessage = encodeURIComponent(message);
