@@ -10,28 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const comment = localStorage.getItem('comment') || '-';
     const time    = localStorage.getItem('time') || '-';
 
-    let message = "Здравствуйте!\nЯ оставил заявку на обмен ⬇️\n\n";
+    const message =
+`Здравствуйте!
+Я оставил заявку на обмен ⬇️
 
-    if (flow === 'cash') {
-      // Наличные — без комментария, с временем
-      message += 
-`Заявка: Наличные
-Сумма RUB: ${rub}
-Сумма CZK: ${czk}
-Курс: ${rate}
-Время: ${time}
-Имя: ${name}`;
-    } else {
-      // На счёт — с комментарием
-      message += 
-`Заявка: На счет
+Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
 Сумма RUB: ${rub}
 Сумма CZK: ${czk}
 Курс: ${rate}
 Счет: ${account}
-Имя: ${name}
-Комментарий: ${comment}`;
-    }
+Время: ${time}`;
 
     const encodedMessage = encodeURIComponent(message);
 
