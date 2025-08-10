@@ -9,53 +9,73 @@ const REQUISITES = [
    { bank: "ВТБ банк", number: "+7 932 551 99 88", recipient: "Всеволод Рублев", max_amount: 200000 },
    { bank: "Райфайзен банк", number: "2200 7001 1234 4321", recipient: "Валентина Матвиенко", max_amount: 500000 }
 ];
-// Читаем сумму
-function getAmount(){
+
+// Нормализуем любые пробелы/₽/текст → число
+function parseAmountRaw(v) {
+  if (v == null) return NaN;
+  const cleaned = String(v)
+    .replace(/\u202F|\u00A0|\s/g, '')  // все пробелы (в т.ч. неразрывные)
+    .replace(/[^\d.,-]/g, '')          // выкидываем всё кроме цифр и , .
+    .replace(',', '.');                // запятая → точка
+  return parseFloat(cleaned);
+}
+function getAmount() {
   let v = localStorage.getItem('rub');
-  if(!v) v = localStorage.getItem('rubAmount');
-  return parseFloat(v) || 0;
+  if (!v) v = localStorage.getItem('rubAmount');
+  const n = parseAmountRaw(v);
+  console.log('[payment] raw:', v, '=>', n);
+  return Number.isFinite(n) ? n : 0;
 }
-
-// Формат суммы
-function formatAmount(v){
-  return v.toLocaleString('ru-RU') + ' ₽';
+function formatAmount(n) {
+  return n.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ₽';
 }
-
-// Сокращённое имя
-function shortName(full){
-  const parts = full.split(' ');
-  if(parts.length < 2) return full;
-  return parts[0] + ' ' + parts[1][0] + '.';
+function shortName(full) {
+  if (!full) return '—';
+  const p = full.trim().split(/\s+/);
+  return p.length >= 2 ? `${p[0]} ${p[1][0].toUpperCase()}.` : p[0];
 }
-
-// Копирование
-function copyText(id){
+function copyById(id) {
   const el = document.getElementById(id);
-  if(!el) return;
-  navigator.clipboard.writeText(el.textContent.trim());
+  const text = (el?.textContent || '').trim();
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector(`.copy[data-copy-target="${id}"]`);
+    if (btn) { btn.style.backgroundColor = '#e5e7eb'; setTimeout(() => btn.style.backgroundColor = '', 180); }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const amount = getAmount();
+  const elNum    = document.getElementById('cardNumber');
+  const elName   = document.getElementById('cardHolderShort');
+  const elBank   = document.getElementById('bankName');
+  const elAmount = document.getElementById('payAmount');
+  const btnPaid  = document.getElementById('paidBtn');
 
-  // Выбираем подходящий счёт
-  const req = REQUISITES.find(r => amount <= r.max_amount);
-  if(!req){
-    alert('Нет подходящего счёта для этой суммы');
+  if (!elNum || !elName || !elBank || !elAmount || !btnPaid) {
+    console.error('[payment] missing elements');
     return;
   }
 
-  // Заполняем
-  document.getElementById('cardNumber').textContent = req.number;
-  document.getElementById('cardHolderShort').textContent = shortName(req.recipient);
-  document.getElementById('bankName').textContent = req.bank;
-  document.getElementById('payAmount').textContent = formatAmount(amount);
+  const amount = getAmount();
 
-  // Копирование
-  document.querySelector('.copy').addEventListener('click', () => copyText('cardNumber'));
+  // Подбираем минимальный max_amount, который >= суммы; если сумма 0 — берём первый
+  let req = REQUISITES
+    .filter(r => amount <= r.max_amount)
+    .sort((a, b) => a.max_amount - b.max_amount)[0];
+  if (!req) req = REQUISITES[0];
 
-  // Оплачено
-  document.getElementById('paidBtn').addEventListener('click', () => {
-    window.location.href = 'success.html';
+  // Подставляем
+  elNum.textContent    = req.number || '—';
+  elName.textContent   = shortName(req.recipient);
+  elBank.textContent   = req.bank || '—';
+  elAmount.textContent = formatAmount(amount);
+
+  // Копирование номера
+  document.querySelector('.copy')?.addEventListener('click', () => copyById('cardNumber'));
+
+  // Переход
+  btnPaid.addEventListener('click', (e) => {
+    e.preventDefault(); e.stopPropagation();
+    location.assign('./success.html');
   });
 });
