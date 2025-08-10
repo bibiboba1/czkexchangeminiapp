@@ -376,21 +376,6 @@ body{
   cursor: pointer;
 }
 
-.back-btn {
-  position: fixed;
-  top: 27px;        /* опусти/подними как нужно */
-  left: 15px;
-  z-index: 99999;   /* выше большинства элементов */
-  display: inline-block;
-}
-
-.back-btn img {
-  width: 32px !important;   /* перебиваем возможные глобальные правила img */
-  height: 32px !important;
-  object-fit: contain;
-  cursor: pointer;
-  display: block;           /* на всякий случай */
-}
 
 
 
