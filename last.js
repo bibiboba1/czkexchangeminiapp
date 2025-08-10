@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const val = (rubEl.textContent || '').replace(/\s/g, '').replace(',', '.');
         if (val) localStorage.setItem('rub', val);
       }
-      window.location.href = 'payment.html';
+      window.location.href = 'success.html';
     } else {
       // Для наличных сразу на success.html
       window.location.href = 'success.html';
