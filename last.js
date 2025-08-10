@@ -1,4 +1,4 @@
-console.log('LAST SCRIPT LOADED v10');
+console.log('LAST SCRIPT LOADED v11');
 
 // утилиты
 function formatNumber(n) {
@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
     rate:   localStorage.getItem('rate') || '',
     acc:    localStorage.getItem('account') || '',
     method: localStorage.getItem('method'),
-    time:   localStorage.getItem('time')
+    time:   localStorage.getItem('time'),
+    name:   localStorage.getItem('name') || '-',       // если где-то заполняется
+    comment:localStorage.getItem('comment') || '-'     // если где-то заполняется
   };
 
   // Если данных нет — возвращаем на старт
@@ -52,10 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Определяем выводимые значения
+  // Выводимые значения
   const isCash    = raw.flow === 'cash' || raw.method === 'Наличные';
   const methodOut = isCash ? 'Наличные' : (raw.method || 'На счёт');
-  const accOut    = isCash ? '-'        : raw.acc;
+  const accOut    = isCash ? '-'        : (raw.acc || '-');
   const timeOut   = isCash ? (raw.time || '—') : (raw.time || 'До 24 часов');
 
   // Заполняем страницу
@@ -66,26 +68,67 @@ document.addEventListener('DOMContentLoaded', () => {
   setText('acc',       accOut);
   setText('time',      timeOut);
 
-  // Обработчик кнопки
-  const btn = document.querySelector('.btn-yellow');
-  btn?.addEventListener('click', (e) => {
-    e.preventDefault();
+  async function sendOrderToApi() {
+    // на всякий случай подхватим сумму с экрана, если не сохранили
+    const rubEl = document.getElementById('rubAmount');
+    if (rubEl && !localStorage.getItem('rub')) {
+      const val = (rubEl.textContent || '').replace(/\s/g, '').replace(',', '.');
+      if (val) localStorage.setItem('rub', val);
+    }
 
-    const flow = localStorage.getItem('flow');
-    if (flow === 'account') {
-      // Сохраняем сумму, если ещё не сохранена
-      const rubEl = document.getElementById('rubAmount');
-      if (rubEl && !localStorage.getItem('rub')) {
-        const val = (rubEl.textContent || '').replace(/\s/g, '').replace(',', '.');
-        if (val) localStorage.setItem('rub', val);
+    const body = {
+      // заявка
+      flow:   raw.flow || 'account',
+      method: methodOut,
+      rub:    String(localStorage.getItem('rub') || raw.rub || '0'),
+      czk:    String(localStorage.getItem('czk') || raw.czk || '0'),
+      rate:   String(localStorage.getItem('rate') || raw.rate || '-'),
+      account: accOut,
+      name:    raw.name,
+      comment: raw.comment,
+      time:    timeOut,
+
+      // пользователь из WebApp
+      user_id:       u?.id ? String(u.id) : '',
+      user_username: u?.username || '',
+      user_name:     [u?.first_name, u?.last_name].filter(Boolean).join(' '),
+
+      // запасные варианты (URL/кэш)
+      phone:    localStorage.getItem('user_phone') || qp.phone || '',
+      url_uid:  qp.uid,
+      url_uname:qp.uname,
+      url_name: qp.name
+    };
+
+    const res = await fetch('/api/send', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json().catch(()=> ({}));
+    if (!res.ok || data.success === false) {
+      throw new Error(data.error || `HTTP ${res.status}`);
+    }
+  }
+
+  const btn = document.querySelector('.btn-yellow');
+  btn?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      await sendOrderToApi();
+      window.location.href = 'success.html';
+    } catch (err) {
+      console.error('Ошибка отправки заявки:', err);
+      if (tg?.showPopup) {
+        tg.showPopup({title: 'Ошибка', message: String(err), buttons: [{type:'ok'}]});
+      } else {
+        alert('Не удалось отправить: ' + err);
       }
-      window.location.href = 'success.html';
-    } else {
-      // Для наличных сразу на success.html
-      window.location.href = 'success.html';
     }
   });
 });
+
 
 
 
