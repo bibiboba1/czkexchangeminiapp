@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Формируем текст для чата
     const message =
-`Здравствуйте!\nЯ оставил заявку на обмен! ⬇️\n
+`Здравствуйте!\n Я оставил заявку на обмен! ⬇️\n
 Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
 RUB: ${rub}
 CZK: ${czk}
