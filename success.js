@@ -1,15 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('openChatBtn')?.addEventListener('click', () => {
-    // Готовое сообщение
-    const message = 'Я совершил перевод, отправляю чек!';
+    const flow    = localStorage.getItem('flow') || '-';
+    const rub     = localStorage.getItem('rub') || '-';
+    const czk     = localStorage.getItem('czk') || '-';
+    const rate    = localStorage.getItem('rate') || '-';
+    const account = localStorage.getItem('account') || '-';
+    const time    = localStorage.getItem('time') || '-';
 
-    // Кодируем для URL
+    const message = 
+`Здравствуйте!
+Я оставил заявку на обмен ⬇️
+
+Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
+Сумма RUB: ${rub}
+Сумма CZK: ${czk}
+Курс: ${rate}
+Время: ${time}
+Счет: ${account}`;
+
     const encodedMessage = encodeURIComponent(message);
 
-    // Ссылка на чат с ботом и готовым текстом
+    // Открываем Telegram с уже готовым текстом в чате @big_whipper
     const chatUrl = `https://t.me/big_whipper?text=${encodedMessage}`;
-
-    // Открываем чат
     window.open(chatUrl, '_blank');
   });
 });
