@@ -97,8 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
       phone:    localStorage.getItem('user_phone') || qp.phone || '',
       url_uid:  qp.uid,
       url_uname:qp.uname,
-      url_name: qp.name
+      url_name: qp.name,
+      initData: tg?.initData || ""
+
     };
+    const tg = window.Telegram?.WebApp;
 
     const res = await fetch('/api/send', {
       method: 'POST',
