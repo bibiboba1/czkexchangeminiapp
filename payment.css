@@ -100,12 +100,22 @@ body{
 }
 
 .bottom-btn{
-  display:block; width:min(760px, calc(100% - 36px));
+  display:block;
+  width:100%;                 /* шире — на всю доступную ширину контейнера */
   margin:0 auto;
-  border:0; cursor:pointer;
-  background:var(--yellow); color:#000; font-weight:800; font-size:22px;
-  padding:16px 18px; border-radius:24px;
+  border:0;
+  cursor:pointer;
+  background:var(--yellow);
+  color:#000;
+  font-weight:800;
+  font-size:22px;
+  padding:16px 18px;
+  border-radius:16px;          /* было 24px — теперь меньше скругление */
 }
+.bottom-btn:active{
+  transform:translateY(1px);
+}
+
 .bottom-btn:active{ transform:translateY(1px) }
 
 .bottom-spacer{ height:140px; }
