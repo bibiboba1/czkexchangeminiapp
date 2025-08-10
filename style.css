@@ -361,3 +361,19 @@ body{
   color: black;
 }
 
+.back-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+  display: inline-block;
+}
+
+.back-btn img {
+  width: 32px; /* размер иконки */
+  height: 32px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+
