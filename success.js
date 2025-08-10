@@ -1,30 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const b64u = s => btoa(unescape(encodeURIComponent(s)))
+    .replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+
   document.getElementById('openChatBtn')?.addEventListener('click', () => {
-    const flow    = localStorage.getItem('flow') || '-';
-    const rub     = localStorage.getItem('rub') || '-';
-    const czk     = localStorage.getItem('czk') || '-';
-    const rate    = localStorage.getItem('rate') || '-';
-    const account = localStorage.getItem('account') || '-';
-    const time    = localStorage.getItem('time') || '-';
-
-    const message = 
-`Здравствуйте!
-Я оставил заявку на обмен ⬇️
-
-Заявка: ${flow === 'cash' ? 'Наличные' : 'На счет'}
-Сумма RUB: ${rub}
-Сумма CZK: ${czk}
-Курс: ${rate}
-Время: ${time}
-Счет: ${account}`;
-
-    const encodedMessage = encodeURIComponent(message);
-
-    // Открываем Telegram с уже готовым текстом в чате @big_whipper
-    const chatUrl = `https://t.me/big_whipper?text=${encodedMessage}`;
-    window.open(chatUrl, '_blank');
+    const flow = localStorage.getItem('flow') || '-';
+    const data = {
+      flow,
+      rub:  localStorage.getItem('rub')  || '-',
+      czk:  localStorage.getItem('czk')  || '-',
+      rate: localStorage.getItem('rate') || '-',
+      account: localStorage.getItem('account') || '-',
+      name:    localStorage.getItem('name')    || '-',
+      comment: localStorage.getItem('comment') || '-',
+      time:    localStorage.getItem('time')    || '-',
+    };
+    // компактная строка
+    const compact = JSON.stringify(data);
+    const payload = b64u(compact); // base64url
+    window.open(`https://t.me/big_whipper?start=${payload}`, '_blank');
   });
 });
+
 
 
 
