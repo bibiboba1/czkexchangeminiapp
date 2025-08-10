@@ -5,7 +5,7 @@ const requisites = [
   { bank: "Альфа", number: "798362374", recipient: "Владимир Владимирович П.", max_amount: 100000 },
   { bank: "Тинькофф", number: "790987435", recipient: "Дмитрий Анатольевич М.", max_amount: 200000 },
   { bank: "ОТП-Банк", number: "798766338", recipient: "Хабиб Абдулманапович Н.", max_amount: 500000 },
-  // добавь остальные до 10
+  
 ];
 
 function copyText(text) {
