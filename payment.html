@@ -6,7 +6,7 @@
   <title>Реквизиты для перевода</title>
 
   <link rel="stylesheet" href="payment.css" />
-  <script defer src="payment.js?v=7"></script>
+  <script defer src="payment.js?v=8"></script>
 </head>
 <body>
   <div class="wrap" id="paymentPage">
@@ -15,7 +15,6 @@
 
     <!-- Жёлтая карта -->
     <div class="card">
-      <!-- Белая строка с номером карты -->
       <div class="number-box">
         <span id="number">—</span>
         <button class="copy" type="button" data-copy-target="number" aria-label="Скопировать номер карты">
@@ -25,14 +24,12 @@
 
       <div class="card-bottom">
         <div class="who">
-          <!-- Новая строка: телефон -->
           <div class="phone-row">
             <span id="phone">—</span>
             <button class="copy copy-inline" type="button" data-copy-target="phone" aria-label="Скопировать телефон">
               <img src="images/copy.png" alt="copy"/>
             </button>
           </div>
-
           <div class="name" id="recipient">—</div>
           <div class="bank" id="bank">—</div>
         </div>
@@ -46,8 +43,16 @@
       <div class="divider"></div>
     </div>
 
-    <button class="btn" id="paidBtn" type="button">Оплачено</button>
+    <!-- Контент-отступ, чтобы не перекрыть нижнюю панель -->
+    <div class="bottom-spacer"></div>
+  </div>
+
+  <!-- Нижняя панель: таймер + кнопка -->
+  <div class="bottom-bar">
+    <div class="timer" id="timer">30:00</div>
+    <button class="btn bottom-btn" id="paidBtn" type="button">Оплачено</button>
   </div>
 </body>
 </html>
+
 
