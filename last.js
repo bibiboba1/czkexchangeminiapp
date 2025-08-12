@@ -1,3 +1,5 @@
+
+
 console.log('LAST SCRIPT LOADED v12');
 
 // утилиты
@@ -129,8 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-
 
 
 
