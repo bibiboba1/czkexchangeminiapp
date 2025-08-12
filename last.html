@@ -14,12 +14,11 @@
   <script defer src="last.js"></script>
 </head>
 <body>
-<a href="second.html" class="back-btn">
-  <img src="images/back.png" alt="Назад">
-</a>
-  
-  <div class="container" id="confirmPage">
+  <a href="second.html" class="back-btn">
+    <img src="images/back.png" alt="Назад">
+  </a>
 
+  <div class="container" id="confirmPage">
     <!-- Шкала прогресса -->
     <div class="steps">
       <div class="circle done"></div>
@@ -51,7 +50,7 @@
     <!-- Информация -->
     <div class="cf-list">
       <div class="cf-item">
-        <div class="cf-item-label">Ваш номер счета</div>
+        <div class="cf-item-label" id="accLabel">Ваш номер счета</div>
         <div class="cf-item-value" id="acc">—</div>
       </div>
 
@@ -66,7 +65,7 @@
           <div class="cf-item-value" id="rate">—</div>
         </div>
         <div class="cf-item">
-          <div class="cf-item-label">Способ</div>
+          <div class="cf-item-label" id="methodLabel">Способ</div>
           <div class="cf-item-value" id="method">—</div>
         </div>
       </div>
@@ -80,6 +79,7 @@
   </div>
 </body>
 </html>
+
 
 
 
