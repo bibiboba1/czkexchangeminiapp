@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const encodedMessage = encodeURIComponent(message);
 
     // Открываем чат с готовым текстом
-    const chatUrl = `https://t.me/vsevoloqd?text=${encodedMessage}`;
+    const chatUrl = `https://t.me/intrustmon?text=${encodedMessage}`;
     window.open(chatUrl, '_blank');
   });
 });
