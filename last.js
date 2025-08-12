@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     try {
       await sendOrderToApi();
-      window.location.href = 'success.html';
+      window.location.href = 'payment.html';
     } catch (err) {
       console.error('Ошибка отправки заявки:', err);
       if (tg?.showPopup) {
