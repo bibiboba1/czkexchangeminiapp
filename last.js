@@ -1,5 +1,3 @@
-
-
 console.log('LAST SCRIPT LOADED v12');
 
 // утилиты
@@ -54,7 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Выводимые значения
   const isCash    = raw.flow === 'cash' || raw.method === 'Наличные';
   const methodOut = isCash ? 'Наличные' : (raw.method || 'На счёт');
-  const accOut    = isCash ? '-'        : (raw.acc || '-');
+  // Если наличные — пишем "Отсутствует" вместо номера счёта
+  const accOut    = isCash ? 'Отсутствует' : (raw.acc || '-');
   const timeOut   = isCash ? (raw.time || '—') : (raw.time || 'До 24 часов');
 
   // Заполняем страницу
@@ -131,13 +130,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-
-
-
-
-
-
-
-
-  
