@@ -37,8 +37,8 @@ const exchangeBtn = document.getElementById('exchangeBtn');
 
 // === КУРСЫ ===
 function getRate(rub) {
-  const czk = rub / 3.95;
-  return czk >= 20000 ? 3.89 : 3.95;
+  const czk = rub / 4.1;
+  return czk >= 20000 ? 4.05 : 4.1;
 }
 
 // Формат числа: "20 000"
