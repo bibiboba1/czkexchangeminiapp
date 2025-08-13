@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isCash    = raw.flow === 'cash' || raw.method === 'Наличные';
   const methodOut = isCash ? 'Наличные' : (raw.method || 'На счёт');
   // Если наличные — пишем "Отсутствует" вместо номера счёта
-  const accOut    = isCash ? 'Отсутствует' : (raw.acc || '-');
+  const accOut    = isCash ? 'Не требуется' : (raw.acc || '-');
   const timeOut   = isCash ? (raw.time || '—') : (raw.time || 'До 24 часов');
 
   // Заполняем страницу
