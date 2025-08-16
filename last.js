@@ -1,8 +1,8 @@
 // /last.js
-console.log('LAST SCRIPT LOADED v14');
+console.log('LAST SCRIPT LOADED v15');
 
-const API_BASE = 'czkexchangeminiapp.vercel.app'; // если фронт НЕ на том же домене, укажи абсолютный URL, напр. 'https://yourapp.vercel.app'
-const BOT_USERNAME = 'innnntro_bot'; // без @ — замени на реальный username бота
+const API_BASE = 'https://czkexchangeminiapp.vercel.app'; // полный URL твоего backend (Vercel)
+const BOT_USERNAME = 'innnntro_bot'; // username бота без @
 
 // ── утилиты ───────────────────────────────────────────────────────────────────
 function formatNumber(n) {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Telegram WebApp SDK (безопасно, даже если не в Telegram)
+  // Telegram WebApp SDK (безопасно, даже если страница открыта вне Telegram)
   const tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
   try { tg && tg.ready(); tg && tg.expand && tg.expand(); } catch (e) { console.warn(e); }
 
@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     comment: localStorage.getItem('comment') || '-'
   };
 
+  // если данных нет — вернём на старт
   if (!raw.flow && !raw.method) {
     console.warn('no flow/method -> redirect index.html');
     window.location.replace('index.html');
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setText('acc',       accOut);
   setText('time',      timeOut);
 
+  // сбор полезной нагрузки (и для API, и для sendData)
   function buildPayload() {
     const userUnsafe = tg?.initDataUnsafe?.user || null;
     const rubFromUI = (document.getElementById('rubAmount')?.textContent || '')
@@ -74,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(',', '.');
 
     return {
+      // заявка
       flow:    raw.flow || 'account',
       method:  methodOut,
       rub:     String(localStorage.getItem('rub') || raw.rub || rubFromUI || '0'),
@@ -84,7 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
       comment: raw.comment,
       time:    timeOut,
 
-      user: userUnsafe,
+      // данные пользователя
+      user: userUnsafe, // объект от Telegram {id, username, ...}
       user_id:       String(localStorage.getItem('tg_user_id') || userUnsafe?.id || ''),
       user_username: localStorage.getItem('tg_username') || userUnsafe?.username || '',
       user_name: [
@@ -92,11 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.getItem('tg_last_name')  || userUnsafe?.last_name  || ''
       ].filter(Boolean).join(' '),
 
+      // запасные варианты (URL/кэш)
       phone:     localStorage.getItem('user_phone') || qp.phone || '',
       url_uid:   qp.uid,
       url_uname: qp.uname,
       url_name:  qp.name,
 
+      // initData из Telegram WebApp (на бэке проверить подпись!)
       initData: tg?.initData || localStorage.getItem('tg_initData') || ''
     };
   }
@@ -130,17 +136,17 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('[submit] payload:', payload);
 
     try {
-      // 1) Просим право писать (только если есть tg)
+      // 1) просим право писать пользователю (если ещё не было)
       if (tg?.requestWriteAccess) {
         tg.requestWriteAccess((granted) => {
           console.log('[submit] write access:', granted);
-          if (!granted && tg?.openTelegramLink && BOT_USERNAME && BOT_USERNAME !== 'YourRealBot') {
+          if (!granted && tg?.openTelegramLink && BOT_USERNAME) {
             tg.openTelegramLink(`https://t.me/${BOT_USERNAME}?start=lead`);
           }
         });
       }
 
-      // 2) Шлём сервисное сообщение боту (не блокирует процесс)
+      // 2) шлём сервисное сообщение боту (Puzzlebot тоже увидит через webhook)
       try {
         if (tg?.sendData) {
           tg.sendData(JSON.stringify({ type: 'lead', ...payload }));
@@ -151,18 +157,23 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (sdErr) {
         console.warn('[submit] sendData error:', sdErr);
       }
-if (window.PuzzleWebApp?.sendEvent) {
-  window.PuzzleWebApp.sendEvent('lead_submitted', payload);
-} else if (window.puzzlebot?.sendEvent) {
-  window.puzzlebot.sendEvent('lead_submitted', payload);
-}
 
+      // 2a) (опционально) событие для Puzzlebot SDK, если их скрипт подключён
+      try {
+        if (window.PuzzleWebApp?.sendEvent) {
+          window.PuzzleWebApp.sendEvent('lead_submitted', payload);
+        } else if (window.puzzlebot?.sendEvent) {
+          window.puzzlebot.sendEvent('lead_submitted', payload);
+        }
+      } catch (pbErr) {
+        console.warn('[submit] puzzle event error:', pbErr);
+      }
 
-      // 3) Отправляем на сервер (Vercel)
+      // 3) отправляем на сервер (Vercel)
       await sendOrderToApi(payload);
       console.log('[submit] API ok');
 
-      // 4) Переходим к оплате
+      // 4) переходим к оплате
       window.location.href = 'payment.html';
 
     } catch (err) {
@@ -177,5 +188,6 @@ if (window.PuzzleWebApp?.sendEvent) {
     }
   });
 });
+
 
 
