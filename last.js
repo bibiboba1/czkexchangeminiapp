@@ -1,4 +1,8 @@
-console.log('LAST SCRIPT LOADED v13');
+// /last.js
+console.log('LAST SCRIPT LOADED v14');
+
+const API_BASE = ''; // если фронт НЕ на том же домене, укажи абсолютный URL, напр. 'https://yourapp.vercel.app'
+const BOT_USERNAME = 'innnntro_bot'; // без @ — замени на реальный username бота
 
 // ── утилиты ───────────────────────────────────────────────────────────────────
 function formatNumber(n) {
@@ -20,17 +24,19 @@ function getParams() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (!document.getElementById('confirmPage')) return;
+  const root = document.getElementById('confirmPage');
+  if (!root) {
+    console.warn('confirmPage not found');
+    return;
+  }
 
-  // Telegram WebApp SDK
-  const tg = window.Telegram?.WebApp;
-  try { tg?.ready(); tg?.expand?.(); } catch (e) {}
+  // Telegram WebApp SDK (безопасно, даже если не в Telegram)
+  const tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+  try { tg && tg.ready(); tg && tg.expand && tg.expand(); } catch (e) { console.warn(e); }
 
-  // Параметры из URL
   const qp = getParams();
   if (qp.phone) localStorage.setItem('user_phone', qp.phone);
 
-  // Данные из localStorage
   const raw = {
     flow:    localStorage.getItem('flow'),
     rub:     localStorage.getItem('rub') || 0,
@@ -43,20 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
     comment: localStorage.getItem('comment') || '-'
   };
 
-  // Если данных нет — возвращаем на старт
   if (!raw.flow && !raw.method) {
+    console.warn('no flow/method -> redirect index.html');
     window.location.replace('index.html');
     return;
   }
 
-  // Вычислим видимые значения
   const isCash    = raw.flow === 'cash' || raw.method === 'Наличные';
   const methodOut = isCash ? 'Наличные' : (raw.method || 'На счёт');
-  // Если наличные — пишем "Не требуется" вместо номера счёта
   const accOut    = isCash ? 'Не требуется' : (raw.acc || '-');
   const timeOut   = isCash ? (raw.time || '—') : (raw.time || 'До 24 часов');
 
-  // Заполняем страницу
   setText('rubAmount', formatNumber(raw.rub));
   setText('czkAmount', formatNumber(raw.czk));
   setText('rate',      raw.rate);
@@ -64,17 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
   setText('acc',       accOut);
   setText('time',      timeOut);
 
-  // Сбор полезной нагрузки (и для API, и для sendData)
   function buildPayload() {
     const userUnsafe = tg?.initDataUnsafe?.user || null;
-
-    // На всякий случай подхватим сумму с экрана, если не сохранили
     const rubFromUI = (document.getElementById('rubAmount')?.textContent || '')
       .replace(/\s/g, '')
       .replace(',', '.');
 
     return {
-      // Заявка
       flow:    raw.flow || 'account',
       method:  methodOut,
       rub:     String(localStorage.getItem('rub') || raw.rub || rubFromUI || '0'),
@@ -85,8 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
       comment: raw.comment,
       time:    timeOut,
 
-      // Данные пользователя (из WebApp + лок. кэш)
-      user: userUnsafe, // {id, username, first_name, last_name, language_code, ...}
+      user: userUnsafe,
       user_id:       String(localStorage.getItem('tg_user_id') || userUnsafe?.id || ''),
       user_username: localStorage.getItem('tg_username') || userUnsafe?.username || '',
       user_name: [
@@ -94,69 +92,84 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.getItem('tg_last_name')  || userUnsafe?.last_name  || ''
       ].filter(Boolean).join(' '),
 
-      // Запасные варианты (URL/кэш)
       phone:     localStorage.getItem('user_phone') || qp.phone || '',
       url_uid:   qp.uid,
       url_uname: qp.uname,
       url_name:  qp.name,
 
-      // initData из Telegram WebApp (на бэке обязательно проверить подпись!)
       initData: tg?.initData || localStorage.getItem('tg_initData') || ''
     };
   }
 
   async function sendOrderToApi(payload) {
-    const res = await fetch('/api/send', {
+    const url = (API_BASE ? API_BASE : '') + '/api/send';
+    const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type':'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
-    const data = await res.json().catch(()=> ({}));
+    const data = await res.json().catch(() => ({}));
     if (!res.ok || data.success === false) {
       throw new Error(data.error || `HTTP ${res.status}`);
     }
+    return data;
   }
 
   const btn = document.querySelector('.btn-yellow');
-  btn?.addEventListener('click', async (e) => {
+  if (!btn) {
+    console.error('Submit button .btn-yellow not found');
+    return;
+  }
+
+  btn.addEventListener('click', async (e) => {
     e.preventDefault();
-    if (!btn.disabled) btn.disabled = true;
+    console.log('[submit] click');
+    btn.disabled = true;
 
     const payload = buildPayload();
+    console.log('[submit] payload:', payload);
 
     try {
-      // 1) Просим право писать пользователю (если ещё не было)
-      tg?.requestWriteAccess?.((granted) => {
-        if (!granted) {
-          // Фолбэк — открываем диалог с ботом, чтобы пользователь дал доступ
-          // ЗАМЕНИ YourBot на юзернейм твоего бота:
-          tg?.openTelegramLink?.('https://t.me/innnntro_bot?start=lead');
+      // 1) Просим право писать (только если есть tg)
+      if (tg?.requestWriteAccess) {
+        tg.requestWriteAccess((granted) => {
+          console.log('[submit] write access:', granted);
+          if (!granted && tg?.openTelegramLink && BOT_USERNAME && BOT_USERNAME !== 'YourRealBot') {
+            tg.openTelegramLink(`https://t.me/${BOT_USERNAME}?start=lead`);
+          }
+        });
+      }
+
+      // 2) Шлём сервисное сообщение боту (не блокирует процесс)
+      try {
+        if (tg?.sendData) {
+          tg.sendData(JSON.stringify({ type: 'lead', ...payload }));
+          console.log('[submit] sendData sent');
+        } else {
+          console.log('[submit] sendData not available (not in Telegram)');
         }
-      });
+      } catch (sdErr) {
+        console.warn('[submit] sendData error:', sdErr);
+      }
 
-      // 2) Немедленно шлём сервисное сообщение боту — он получит Update с web_app_data,
-      //    и там будет message.from.id (user_id), чтобы ты мог сразу написать пользователю.
-      tg?.sendData?.(JSON.stringify({
-        type: 'lead',
-        ...payload
-      }));
-
-      // 3) (Опционально) отправляем на ваш сервер/в канал — как и раньше
+      // 3) Отправляем на сервер (Vercel)
       await sendOrderToApi(payload);
+      console.log('[submit] API ok');
 
-      // 4) Переходим к оплате или закрываем мини-апп
-      // tg?.close?.();
+      // 4) Переходим к оплате
       window.location.href = 'payment.html';
 
     } catch (err) {
-      console.error('Ошибка отправки заявки:', err);
+      console.error('[submit] error:', err);
       if (tg?.showPopup) {
-        tg.showPopup({ title: 'Ошибка', message: String(err), buttons: [{ type:'ok' }] });
+        tg.showPopup({ title: 'Ошибка', message: String(err), buttons: [{ type: 'ok' }] });
       } else {
-        alert('Не удалось отправить: ' + err);
+        alert('Не удалось отправить заявку: ' + err);
       }
-      btn.disabled = false;
+    } finally {
+      btn.disabled = false; // всегда возвращаем кнопку
     }
   });
 });
+
 
