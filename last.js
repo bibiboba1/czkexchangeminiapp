@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!granted) {
           // Фолбэк — открываем диалог с ботом, чтобы пользователь дал доступ
           // ЗАМЕНИ YourBot на юзернейм твоего бота:
-          tg?.openTelegramLink?.('https://t.me/YourBot?start=lead');
+          tg?.openTelegramLink?.('https://t.me/innnntro_bot?start=lead');
         }
       });
 
