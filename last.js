@@ -1,7 +1,7 @@
 // /last.js
 console.log('LAST SCRIPT LOADED v14');
 
-const API_BASE = ''; // если фронт НЕ на том же домене, укажи абсолютный URL, напр. 'https://yourapp.vercel.app'
+const API_BASE = 'czkexchangeminiapp.vercel.app'; // если фронт НЕ на том же домене, укажи абсолютный URL, напр. 'https://yourapp.vercel.app'
 const BOT_USERNAME = 'innnntro_bot'; // без @ — замени на реальный username бота
 
 // ── утилиты ───────────────────────────────────────────────────────────────────
