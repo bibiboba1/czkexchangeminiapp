@@ -1,16 +1,6 @@
 // /api/send.js — Vercel serverless function (ESM)
 import crypto from 'crypto';
 
-// в начале handler:
-if (req.method === 'OPTIONS') {
-  res.setHeader('Access-Control-Allow-Origin', '*');        // или твой домен GitHub Pages
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  return res.status(200).end();
-}
-res.setHeader('Access-Control-Allow-Origin', '*');          // или точный origin
-
-
 // HTML-эскейп (для parse_mode=HTML)
 function esc(s = '') {
   return String(s)
@@ -54,6 +44,17 @@ function verifyInitData(initData, botToken) {
 }
 
 export default async function handler(req, res) {
+  // --- CORS (всегда ставим заголовки; меняй ALLOWED_ORIGIN при необходимости) ---
+  const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*'; // или укажи свой домен GitHub Pages
+  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Method Not Allowed' });
   }
@@ -168,6 +169,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 }
+
 
 
 
