@@ -151,6 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (sdErr) {
         console.warn('[submit] sendData error:', sdErr);
       }
+if (window.PuzzleWebApp?.sendEvent) {
+  window.PuzzleWebApp.sendEvent('lead_submitted', payload);
+} else if (window.puzzlebot?.sendEvent) {
+  window.puzzlebot.sendEvent('lead_submitted', payload);
+}
+
 
       // 3) Отправляем на сервер (Vercel)
       await sendOrderToApi(payload);
