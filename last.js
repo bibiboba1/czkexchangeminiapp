@@ -1,5 +1,5 @@
 // /last.js
-console.log('LAST SCRIPT LOADED v15');
+console.log('LAST SCRIPT LOADED v16');
 
 const API_BASE = 'https://czkexchangeminiapp.vercel.app'; // полный URL твоего backend (Vercel)
 const BOT_USERNAME = 'innnntro_bot'; // username бота без @
@@ -22,15 +22,21 @@ function getParams() {
     phone: (p.get('phone') || '').trim()
   };
 }
+function alertErr(prefix, err) {
+  const msg = `[${prefix}] ${String(err?.message || err)}`;
+  console.error(msg);
+  try { alert(msg); } catch {}
+}
 
-document.addEventListener('DOMContentLoaded', () => {
+// ── основной код ──────────────────────────────────────────────────────────────
+function init() {
   const root = document.getElementById('confirmPage');
   if (!root) {
     console.warn('confirmPage not found');
     return;
   }
 
-  // Telegram WebApp SDK (безопасно, даже если страница открыта вне Telegram)
+  // Telegram WebApp SDK (безопасно, даже если вне Telegram)
   const tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
   try { tg && tg.ready(); tg && tg.expand && tg.expand(); } catch (e) { console.warn(e); }
 
@@ -49,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     comment: localStorage.getItem('comment') || '-'
   };
 
-  // если данных нет — вернём на старт
   if (!raw.flow && !raw.method) {
     console.warn('no flow/method -> redirect index.html');
     window.location.replace('index.html');
@@ -68,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setText('acc',       accOut);
   setText('time',      timeOut);
 
-  // сбор полезной нагрузки (и для API, и для sendData)
   function buildPayload() {
     const userUnsafe = tg?.initDataUnsafe?.user || null;
     const rubFromUI = (document.getElementById('rubAmount')?.textContent || '')
@@ -88,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
       time:    timeOut,
 
       // данные пользователя
-      user: userUnsafe, // объект от Telegram {id, username, ...}
+      user: userUnsafe,
       user_id:       String(localStorage.getItem('tg_user_id') || userUnsafe?.id || ''),
       user_username: localStorage.getItem('tg_username') || userUnsafe?.username || '',
       user_name: [
@@ -107,8 +111,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
+  async function pingApi() {
+    try {
+      const r = await fetch(`${API_BASE}/api/send`, {
+        method: 'OPTIONS',
+        headers: { 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' }
+      });
+      if (!r.ok) throw new Error(`API preflight ${r.status}`);
+      console.log('[ping] API preflight OK');
+    } catch (e) {
+      alertErr('API недоступно', e);
+    }
+  }
+
   async function sendOrderToApi(payload) {
-    const url = (API_BASE ? API_BASE : '') + '/api/send';
+    const url = `${API_BASE}/api/send`;
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type':'application/json' },
@@ -121,9 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return data;
   }
 
+  // предварительная проверка доступности API (не обязательно, но удобно)
+  pingApi();
+
   const btn = document.querySelector('.btn-yellow');
   if (!btn) {
-    console.error('Submit button .btn-yellow not found');
+    alertErr('UI', 'Кнопка .btn-yellow не найдена на странице');
     return;
   }
 
@@ -136,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('[submit] payload:', payload);
 
     try {
-      // 1) просим право писать пользователю (если ещё не было)
+      // 1) запросить право писать пользователю
       if (tg?.requestWriteAccess) {
         tg.requestWriteAccess((granted) => {
           console.log('[submit] write access:', granted);
@@ -146,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // 2) шлём сервисное сообщение боту (Puzzlebot тоже увидит через webhook)
+      // 2) отправить сервисное сообщение боту
       try {
         if (tg?.sendData) {
           tg.sendData(JSON.stringify({ type: 'lead', ...payload }));
@@ -158,36 +178,28 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('[submit] sendData error:', sdErr);
       }
 
-      // 2a) (опционально) событие для Puzzlebot SDK, если их скрипт подключён
-      try {
-        if (window.PuzzleWebApp?.sendEvent) {
-          window.PuzzleWebApp.sendEvent('lead_submitted', payload);
-        } else if (window.puzzlebot?.sendEvent) {
-          window.puzzlebot.sendEvent('lead_submitted', payload);
-        }
-      } catch (pbErr) {
-        console.warn('[submit] puzzle event error:', pbErr);
-      }
-
-      // 3) отправляем на сервер (Vercel)
+      // 3) отправить на сервер (Vercel)
       await sendOrderToApi(payload);
       console.log('[submit] API ok');
 
-      // 4) переходим к оплате
+      // 4) переход к оплате
       window.location.href = 'payment.html';
 
     } catch (err) {
-      console.error('[submit] error:', err);
-      if (tg?.showPopup) {
-        tg.showPopup({ title: 'Ошибка', message: String(err), buttons: [{ type: 'ok' }] });
-      } else {
-        alert('Не удалось отправить заявку: ' + err);
-      }
+      alertErr('Отправка заявки', err);
     } finally {
-      btn.disabled = false; // всегда возвращаем кнопку
+      btn.disabled = false;
     }
   });
-});
+}
+
+// инициализация надёжно: если DOM уже готов — запускаем сразу
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
 
 
 
