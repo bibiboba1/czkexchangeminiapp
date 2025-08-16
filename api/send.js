@@ -1,6 +1,7 @@
-// /api/send.js — Vercel serverless function
+// /api/send.js — Vercel serverless function (ESM)
 import crypto from 'crypto';
 
+// HTML-эскейп (для parse_mode=HTML)
 function esc(s = '') {
   return String(s)
     .replaceAll('&', '&amp;')
@@ -10,7 +11,6 @@ function esc(s = '') {
 
 // --- Проверка и парсинг initData от Telegram ---
 function verifyInitData(initData, botToken) {
-
   const params = new URLSearchParams(initData);
   const receivedHash = params.get('hash');
   if (!receivedHash) throw new Error('no hash in initData');
@@ -40,13 +40,14 @@ function verifyInitData(initData, botToken) {
       out[k] = v;
     }
   }
-  return out; // вернёт { user, auth_date, query_id, ... }
+  return out; // { user, auth_date, query_id, ... }
 }
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Method Not Allowed' });
   }
+
   try {
     const {
       flow = 'account',
@@ -67,22 +68,21 @@ export default async function handler(req, res) {
     } = req.body || {};
 
     const token = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    const chatId = process.env.TELEGRAM_CHAT_ID; // канал/чат, куда шлём заявки
     if (!token || !chatId) {
       return res.status(500).json({ success: false, error: 'Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID' });
     }
 
     // --- 1) Пытаемся достать реального пользователя из initData ---
     let tmaUser = null;
-if (initData) {
-  try {
-    const verified = verifyInitData(initData, token);
-    tmaUser = verified.user || null;
-  } catch (err) {
-    console.warn('[send] initData verify failed:', err.message);
-  }
-}
-
+    if (initData) {
+      try {
+        const verified = verifyInitData(initData, token);
+        tmaUser = verified.user || null;
+      } catch (err) {
+        console.warn('[send] initData verify failed:', err.message);
+      }
+    }
 
     // --- 2) Формируем итоговые данные пользователя ---
     const finalId = String(tmaUser?.id || user_id || url_uid || '') || 'неизвестно';
@@ -92,9 +92,12 @@ if (initData) {
       : (user_name || url_name || '');
     const phoneOut = phone || 'не указан';
 
-    const usernameLine = finalUser
-      ? `username: <a href="https://t.me/${esc(finalUser)}">@${esc(finalUser)}</a>`
-      : `username: <i>нет</i>`;
+    // Кликабельная ссылка на юзера, даже если нет username
+    const clickableUser = finalUser
+      ? `@${esc(finalUser)}`
+      : (finalId && finalId !== 'неизвестно'
+          ? `<a href="tg://user?id=${esc(finalId)}">${esc(finalName || 'пользователь')}</a>`
+          : `<i>неизвестно</i>`);
 
     const text =
       `<b>Заявка</b>\n` +
@@ -108,12 +111,11 @@ if (initData) {
       `Время: <b>${esc(time)}</b>\n` +
       `—\n` +
       `<i>Пользователь:</i>\n` +
-      (finalId ? `id: <code>${esc(finalId)}</code>\n` : `id: <i>неизвестно</i>\n`) +
-      `${usernameLine}\n` +
-      `name: <b>${esc(finalName || 'нет')}</b>\n` +
+      `id: ${finalId ? `<code>${esc(finalId)}</code>` : `<i>неизвестно</i>`}\n` +
+      `профиль: ${clickableUser}\n` +
       `phone: <b>${esc(phoneOut)}</b>`;
 
-    // --- 3) Отправка в Telegram канал ---
+    // --- 3) Отправка в Telegram канал/чат ---
     const tgResp = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -128,6 +130,28 @@ if (initData) {
     if (!tgJson.ok) {
       return res.status(502).json({ success: false, error: tgJson.description || 'Telegram error' });
     }
+
+    // --- 4) Попробуем написать пользователю напрямую (если знаем его id) ---
+    if (finalId && /^\d+$/.test(finalId)) {
+      try {
+        const dmResp = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: finalId, // строкой безопасно
+            text: 'Спасибо! Ваша заявка получена ✅\nМы свяжемся с вами здесь.'
+          })
+        });
+        const dmJson = await dmResp.json();
+        if (!dmJson.ok) {
+          // частый случай: 403 если пользователь не дал write access и не открывал бота
+          console.warn('[send] DM failed:', dmJson.description);
+        }
+      } catch (e) {
+        console.warn('[send] DM error:', e);
+      }
+    }
+
     return res.status(200).json({ success: true });
   } catch (e) {
     console.error('[api/send] error', e);
