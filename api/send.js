@@ -1,6 +1,16 @@
 // /api/send.js — Vercel serverless function (ESM)
 import crypto from 'crypto';
 
+// в начале handler:
+if (req.method === 'OPTIONS') {
+  res.setHeader('Access-Control-Allow-Origin', '*');        // или твой домен GitHub Pages
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  return res.status(200).end();
+}
+res.setHeader('Access-Control-Allow-Origin', '*');          // или точный origin
+
+
 // HTML-эскейп (для parse_mode=HTML)
 function esc(s = '') {
   return String(s)
