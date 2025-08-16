@@ -1,6 +1,7 @@
 // === Telegram Mini App init + сохранение пользователя ===
 document.addEventListener('DOMContentLoaded', () => {
   const tg = window.Telegram?.WebApp;
+
   try {
     tg?.ready();
     tg?.expand?.();
@@ -8,7 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('Telegram WebApp not available:', e);
   }
 
-  // если зашли через кнопку в боте — будут данные пользователя
+  // Сохраняем initData всегда, если оно есть
+  if (tg?.initData) {
+    try {
+      localStorage.setItem('tg_initData', tg.initData);
+    } catch (e) {
+      console.warn('Failed to store initData:', e);
+    }
+  }
+
+  // Если есть профиль пользователя — кешируем удобные поля
   const u = tg?.initDataUnsafe?.user || null;
   if (u) {
     try {
@@ -16,19 +26,19 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('tg_username', u.username || '');
       localStorage.setItem('tg_first_name', u.first_name || '');
       localStorage.setItem('tg_last_name', u.last_name || '');
-      localStorage.setItem('tg_initData', tg?.initData || '');
     } catch (e) {
       console.warn('Failed to store Telegram user:', e);
     }
   }
 
-  // если бот передал телефон/имя через URL — положим в кэш
+  // Телефон/имя из URL — в кэш
   const p = new URLSearchParams(location.search);
   const phone = (p.get('phone') || '').trim();
   const name  = (p.get('name')  || '').trim();
   if (phone) localStorage.setItem('user_phone', phone);
   if (name)  localStorage.setItem('name', name);
 });
+
 
 // === элементы ===
 const input = document.getElementById('inputAmount');
